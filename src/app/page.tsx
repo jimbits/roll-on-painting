@@ -1,24 +1,10 @@
-import Logo from '@/components/test-svg'
-
-export default function Home() {
+import PricingCard from '@/components/cards/pricing-card'
+import NavBar from '../components/headers/appbar'
+export default function Page() {
 	return (
 		<>
-			<nav>
-				<Logo />
-				<figure>
-					<figcaption>Roll On Quality</figcaption>
-				</figure>
-			</nav>
-			<header className="text-center text-lg">
-				<h1
-					className="text-3xl font-bold  pt-4
-        "
-				>
-					{' '}
-					Residential Interior Painting Calculator
-				</h1>
-				<p> Edmonton Proffessional House Painters Roll On Quality</p>
-			</header>
+			<NavBar title="TailwindCSS" tagline="learning" className=" pt-3 pb-8 text-center" />
+			<PricingCard />
 		</>
 	)
 }

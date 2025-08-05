@@ -1,4 +1,8 @@
-# Residential Interior Paint Quote Calculator Planning Document
+# Roll On Painting Quote Form
+
+## GitHub Repository
+
+[roll-on-painting](https://github.com/jimbits/roll-on-painting)
 
 ## Project Overview
 

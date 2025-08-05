@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 1600 980">
+  <!-- Generator: Adobe Illustrator 29.2.1, SVG Export Plug-In . SVG Version: 2.1.0 Build 116)  -->
+  <defs>
+    <style>
+      .st0 {
+        fill: url(#linear-gradient2);
+      }
+
+      .st1 {
+        fill: url(#linear-gradient1);
+      }
+
+      .st2 {
+        fill: url(#linear-gradient3);
+      }
+
+      .st3 {
+        fill: url(#linear-gradient5);
+      }
+
+      .st4 {
+        fill: url(#linear-gradient4);
+      }
+
+      .st5 {
+        fill: url(#linear-gradient);
+      }
+
+      .st6 {
+        fill: #fff;
+      }
+
+      .st7 {
+        display: none;
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="68.509" y1="490" x2="1499.491" y2="490" gradientUnits="userSpaceOnUse">
+      <stop offset=".003" stop-color="#5c9aff"/>
+      <stop offset=".426" stop-color="#8058ff"/>
+      <stop offset=".525" stop-color="#8156ff"/>
+      <stop offset=".999" stop-color="#8c3cfa"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient1" x1="719.349" y1="479.29" x2="1497.175" y2="479.29" gradientUnits="userSpaceOnUse">
+      <stop offset=".003" stop-color="#e46af5"/>
+      <stop offset=".337" stop-color="#9690fa"/>
+      <stop offset=".525" stop-color="#6fa4fa"/>
+      <stop offset=".997" stop-color="#36c0fe"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient2" x1="670.122" y1="704.586" x2="74.422" y2="699.279" gradientUnits="userSpaceOnUse">
+      <stop offset=".003" stop-color="#e46af5"/>
+      <stop offset=".55" stop-color="#988af2"/>
+      <stop offset=".999" stop-color="#59affa"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient3" x1="1445.108" y1="-142.752" x2="146.505" y2="1130.978" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#7e22ce"/>
+      <stop offset=".5" stop-color="#4338ca"/>
+      <stop offset="1" stop-color="#3b82f6"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient4" x1="68.51" y1="487.793" x2="1500.129" y2="487.793" gradientUnits="userSpaceOnUse">
+      <stop offset=".003" stop-color="#73a2fe"/>
+      <stop offset=".267" stop-color="#6e79ff"/>
+      <stop offset=".524" stop-color="#8156fe"/>
+      <stop offset=".998" stop-color="#883cf8"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient5" x1="722.302" y1="474.876" x2="1500.129" y2="474.876" xlink:href="#linear-gradient1"/>
+  </defs>
+  <g id="shape_backup" class="st7">
+    <g id="background">
+      <rect class="st5" x="68.509" y="64.086" width="1430.982" height="851.828" rx="19.91" ry="19.91"/>
+    </g>
+    <g id="right_side">
+      <path class="st1" d="M1497.175,84v810.49c-78.85-17.56-231.98-77.28-366.36-154.02-152.19-86.92-279.93-196.07-313.18-228.13-66.91-64.51-102.09-119.05-97.96-194.2,4.14-75.15,60.02-147.65,60.02-147.65l102.38-106.4h595.19c10.95,0,19.91,8.96,19.91,19.91Z"/>
+    </g>
+    <g id="left_side" class="st7">
+      <path class="st0" d="M776.87,915.91H88.42c-10.95,0-19.91-8.96-19.91-19.91v-413.28c32.76,4.8,90.54,14.63,147.72,30.96,86.78,24.8,241.06,112.96,384.32,201.12s176.32,201.11,176.32,201.11Z"/>
+    </g>
+  </g>
+  <g id="page_background">
+    <rect class="st2" width="1600" height="980"/>
+  </g>
+  <g id="background_overlay" class="st7">
+    <g>
+      <rect class="st4" x="68.51" y="59.676" width="1431.619" height="856.234" rx="12" ry="12"/>
+      <path class="st0" d="M776.87,915.91H88.42c-10.95,0-19.91-8.96-19.91-19.91v-413.28c32.76,4.8,90.54,14.63,147.72,30.96,86.78,24.8,241.06,112.96,384.32,201.12s176.32,201.11,176.32,201.11Z"/>
+      <path class="st3" d="M1500.129,79.586v810.49c-78.85-17.56-231.98-77.28-366.36-154.02-152.19-86.92-279.93-196.07-313.18-228.13-66.91-64.51-102.09-119.05-97.96-194.2,4.14-75.15,60.02-147.65,60.02-147.65l102.38-106.4h595.19c10.95,0,19.91,8.96,19.91,19.91Z"/>
+    </g>
+  </g>
+  <g id="form_background" class="st7">
+    <rect class="st6" x="120.567" y="298.689" width="1327.504" height="562.598" rx="12" ry="12"/>
+    <rect class="st6" x="120.567" y="96.972" width="1327.504" height="159.07" rx="12" ry="12"/>
+  </g>
+</svg>
