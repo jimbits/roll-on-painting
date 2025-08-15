@@ -1,5 +1,5 @@
 import { MobileMenu } from '@/components/navigation/MobileMenu';
-import { PhoneCall, CalculatorIcon } from 'lucide-react';
+import { PhoneCall } from 'lucide-react';
 import Image from 'next/image';
 export default function Home() {
   return (

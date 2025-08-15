@@ -7,7 +7,7 @@ interface MobileMenuProps {
   className?: string;
 }
 
-function MobileMenu({ className }) {
+function MobileMenu({ className }: MobileMenuProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const modalRef = useRef<HTMLDivElement | null>(null);

@@ -1,6 +1,6 @@
 import '@/css/globals.css';
 import type { Metadata } from 'next';
-import { defaultMetadata } from './metadata/metadata';
+import { defaultMetadata } from './metadata';
 import { Inter } from 'next/font/google';
 const inter = Inter({
   variable: '--font-inter',
