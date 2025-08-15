@@ -1,86 +1,96 @@
 'use client';
+
+import { useState, useRef, useEffect } from 'react';
 import { Menu } from 'lucide-react';
-import { ReactNode, useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 interface MobileMenuProps {
-  children?: ReactNode;
   className?: string;
 }
 
-function MobileMenu() {
-  const dialogRef = useRef<HTMLDialogElement | null>(null);
-
+function MobileMenu({ className }) {
+  const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const modalRef = useRef<HTMLDivElement | null>(null);
 
-  function closeDialog() {
+  // Open modal
+  const openModal = () => {
+    setIsOpen(true);
+    requestAnimationFrame(() => setIsVisible(true));
+  };
+
+  // Close modal (fade-out)
+  const closeModal = () => {
     setIsVisible(false);
-    if (dialogRef.current) {
-      setTimeout(() => {
-        const dialog = dialogRef.current;
-        if (dialog) {
-          dialog.close();
-        }
-      }, 500); // Match fade-out duration
-    }
-  }
-  function openDialog() {
-    if (dialogRef.current) {
-      setIsVisible(false);
-      dialogRef.current.showModal();
-      setTimeout(() => setIsVisible(true), 50);
-    }
-  }
+  };
+
+  // Remove modal from DOM after fade-out
   useEffect(() => {
-    const dialog = dialogRef.current;
-    if (!dialog) return;
-  }, []);
+    if (!isVisible && isOpen && modalRef.current) {
+      const handleTransitionEnd = (event: TransitionEvent) => {
+        if (event.target === modalRef.current) {
+          setIsOpen(false);
+        }
+      };
+      const el = modalRef.current;
+      el.addEventListener('transitionend', handleTransitionEnd);
+      return () => el.removeEventListener('transitionend', handleTransitionEnd);
+    }
+  }, [isVisible, isOpen]);
+
+  // Handle Escape key to close modal
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        closeModal();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen]);
+
   return (
     <>
-      <Menu onClick={openDialog} className='w-8 h-8 fixed right-4 top-4' />
-
-      <dialog
-        ref={dialogRef}
-        className={cn(
-          '  fixed inset-0   ',
-          `fade-dialog ${isVisible ? 'fade-dialog--visible' : 'fade-dialog--hidden'}`
-        )}
+      <button
+        type='button'
+        onClick={openModal}
+        className='text-zinc-700     transition-colors'
+        aria-label='Open navigation menu'
+        aria-expanded='false'
+        aria-controls='main-menu'
       >
-        <div className=' w-screen bg-red-500 min-h-screen  p-8'>
-          <h2 className='text-xl font-semibold text-gray-900 mb-4'>Confirm Action</h2>
-          <p className='text-gray-600 mb-6'>
-            Are you sure you want to proceed with this action? This cannot be undone.
-          </p>
+        <Menu className={cn('w-8 h-8  ', className)} />
+      </button>
 
-          <div className='flex gap-3 justify-end'>
+      {isOpen && (
+        <div className='fixed inset-0 z-50 flex items-center justify-center'>
+          {/* Backdrop */}
+          <div
+            className={`absolute inset-0 bg-black transition-opacity duration-300 ${
+              isVisible ? 'opacity-50' : 'opacity-0'
+            }`}
+            onClick={closeModal}
+          />
+
+          {/* Modal content */}
+          <div
+            ref={modalRef}
+            className={`relative bg-white p-6 rounded shadow-lg transform transition-all duration-300
+              ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+          >
+            <h2 className='text-xl font-bold mb-4'>Hello!</h2>
+            <p className='mb-4'>This modal now closes with Esc or clicking the backdrop.</p>
             <button
-              onClick={closeDialog}
-              className='px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors'
+              onClick={closeModal}
+              className='px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors'
             >
-              Cancel
-            </button>
-            <button
-              onClick={closeDialog}
-              className='bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded transition-colors'
-            >
-              Confirm
+              Close
             </button>
           </div>
         </div>
-        {/* <section className='  w-screen h-screen   bg-red-500     '>
-          <header className='flex justify-between py-2 px-4 items-center '>
-            <h2 className='text-3xl font-bold h-12'>Roll On Painting</h2>
-            <button
-              type='button'
-              className=' shadow-md border rounded-md w-8 h-8 place-items-center'
-            >
-              <X className='stroke-zinc-500 stroke-2' onClick={closeModal} />
-            </button>
-          </header>
-          <div className=' '>
-            <p>Greetings, one and all!</p>
-          </div>
-        </section> */}
-      </dialog>
+      )}
     </>
   );
 }
