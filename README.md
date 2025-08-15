@@ -1,36 +1,113 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎨 Roll On Painting Website
 
-## Getting Started
+![Roll On Painting Logo](./assets/logo.png)
 
-First, run the development server:
+A responsive marketing website for **Roll On Painting** that helps boost customer engagement by providing **AI-powered tools** for generating instant residential interior and exterior painting quotes.
+
+Deployed on [Vercel](https://vercel.com).
+
+---
+
+## ✨ Features
+
+- **AI Quote Calculators** – Residential interior & exterior painting calculators powered by an AI agent API.
+- **Responsive UI** – Built with Next.js & TailwindCSS for fast, mobile-friendly performance.
+- **Component Library** – Organized UI components with Storybook for easy development and testing.
+- **SEO Optimized** – Designed for strong local search visibility.
+- **Fast Deployment** – Hosted on Vercel for quick updates.
+
+---
+
+## 🛠 Tech Stack
+
+- [Next.js](https://nextjs.org/) – React-based framework
+- [React](https://react.dev/)
+- [TailwindCSS](https://tailwindcss.com/) – Utility-first CSS framework
+- [Storybook](https://storybook.js.org/) – UI component development & testing
+- AI Agent API integration for painting calculators
+
+---
+
+## 🚀 Installation
+
+Clone the repository and install dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/your-username/roll-on-painting.git
+cd roll-on-painting
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+No environment variables are required.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📦 Available Scripts
 
-## Learn More
+```bash
+# Start development server with Turbopack
+npm run dev
 
-To learn more about Next.js, take a look at the following resources:
+# Start development server with Webpack
+npm run dev:webpack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Build for production
+npm run build
+npm run build:turbo  # Build with Turbopack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# Start production server
+npm run start
 
-## Deploy on Vercel
+# Lint code
+npm run lint
+npm run lint:fix
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Format code
+npm run format
+npm run format:check
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# Storybook
+npm run storybook         # Start Storybook on port 6006
+npm run build-storybook   # Build Storybook for production
+```
+
+---
+
+## 📖 Running Storybook
+
+Storybook is used to organize and test UI components independently from the main app.
+
+```bash
+npm run storybook
+```
+
+Then open [http://localhost:6006](http://localhost:6006) in your browser.
+
+---
+
+## 🖥 Deployment
+
+This project is deployed with [Vercel](https://vercel.com).  
+Pushes to the `main` branch trigger an automatic deployment.
+
+---
+
+## 📷 Screenshots
+
+### Homepage
+![Homepage Screenshot](./assets/screenshots/homepage.png)
+
+### Interior Painting Calculator
+![Interior Calculator Screenshot](./assets/screenshots/interior-calculator.png)
+
+### Exterior Painting Calculator
+![Exterior Calculator Screenshot](./assets/screenshots/exterior-calculator.png)
+
+### Storybook UI Library
+![Storybook Screenshot](./assets/screenshots/storybook.png)
+
+---
+
+## 📄 License
+
+This project is currently private and not open for external contributions.
