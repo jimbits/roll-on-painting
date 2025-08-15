@@ -62,7 +62,6 @@ site's paint database and user management system.
 - Paint coverage estimates
 - Timeline estimate
 - **Call To Action:**
-
   1. Save Quote Button
 
   ### Section 4: Save Quote
@@ -109,13 +108,13 @@ database with search functionality, and document storage.
 
 ```typescript
 // TanStack Query - Server data
-const {data: paintOptions} = useQuery({
-	queryKey: ['paint-search', searchTerm],
-	queryFn: () => searchPaintDatabase(searchTerm),
-})
+const { data: paintOptions } = useQuery({
+  queryKey: ['paint-search', searchTerm],
+  queryFn: () => searchPaintDatabase(searchTerm),
+});
 
 // Zustand - Client form state
-const {projectDetails, updateProjectDetails} = useQuoteStore()
+const { projectDetails, updateProjectDetails } = useQuoteStore();
 ```
 
 ### Essential Next.js Libraries
@@ -256,10 +255,10 @@ App
 ```typescript
 // Example validation state styling
 const inputClasses = cn('border rounded-md px-3 py-2', {
-	'border-red-500 bg-red-50': errors.fieldName,
-	'border-green-500 bg-green-50': !errors.fieldName && touchedFields.fieldName,
-	'border-gray-300': !touchedFields.fieldName,
-})
+  'border-red-500 bg-red-50': errors.fieldName,
+  'border-green-500 bg-green-50': !errors.fieldName && touchedFields.fieldName,
+  'border-gray-300': !touchedFields.fieldName,
+});
 ```
 
 **Validation State Management:**
@@ -276,38 +275,38 @@ const inputClasses = cn('border rounded-md px-3 py-2', {
 ```typescript
 // Step 1: Project Details Schema
 const projectDetailsSchema = z.object({
-	zipCode: z
-		.string()
-		.regex(/^\d{5}$/, 'Please enter a valid 5-digit zip code')
-		.refine(async (val) => await validateZipCode(val), 'Invalid zip code area'),
-	squareFootage: z
-		.number()
-		.min(50, 'Minimum 50 square feet required')
-		.max(10000, 'Maximum 10,000 square feet allowed'),
-	roomCount: z.number().min(1).max(20),
-	ceilingHeight: z.number().min(7).max(20),
-	doorCount: z.number().min(0).max(50),
-	windowCount: z.number().min(0).max(100),
-})
+  zipCode: z
+    .string()
+    .regex(/^\d{5}$/, 'Please enter a valid 5-digit zip code')
+    .refine(async val => await validateZipCode(val), 'Invalid zip code area'),
+  squareFootage: z
+    .number()
+    .min(50, 'Minimum 50 square feet required')
+    .max(10000, 'Maximum 10,000 square feet allowed'),
+  roomCount: z.number().min(1).max(20),
+  ceilingHeight: z.number().min(7).max(20),
+  doorCount: z.number().min(0).max(50),
+  windowCount: z.number().min(0).max(100),
+});
 
 // Step 2: Paint Specifications Schema
 const paintSpecificationsSchema = z.object({
-	paintType: z.enum(['latex', 'oil-based', 'primer-combo']),
-	finish: z.enum(['flat', 'eggshell', 'satin', 'semi-gloss', 'gloss']),
-	qualityTier: z.enum(['basic', 'mid-tier', 'premium']),
-	colorCount: z.number().min(1).max(5),
-	specialFeatures: z.array(z.string()).optional(),
-})
+  paintType: z.enum(['latex', 'oil-based', 'primer-combo']),
+  finish: z.enum(['flat', 'eggshell', 'satin', 'semi-gloss', 'gloss']),
+  qualityTier: z.enum(['basic', 'mid-tier', 'premium']),
+  colorCount: z.number().min(1).max(5),
+  specialFeatures: z.array(z.string()).optional(),
+});
 
 // Step 3: Quote Output Schema
 const quoteOutputSchema = z.object({
-	emailAddress: z.string().email('Please enter a valid email address').optional(),
-	quotePreferences: z.object({
-		includeTimeline: z.boolean(),
-		includeMaterials: z.boolean(),
-		includeTerms: z.boolean(),
-	}),
-})
+  emailAddress: z.string().email('Please enter a valid email address').optional(),
+  quotePreferences: z.object({
+    includeTimeline: z.boolean(),
+    includeMaterials: z.boolean(),
+    includeTerms: z.boolean(),
+  }),
+});
 ```
 
 ### Validation Requirements
@@ -458,26 +457,26 @@ const quoteOutputSchema = z.object({
 ```typescript
 // Example: Pricing calculation tests
 describe('calculateMaterialCost', () => {
-	it('calculates correct paint gallons needed', () => {
-		const formData = {totalSquareFootage: 1200, needsPrimer: false}
-		const paintProduct = {coveragePerGallon: 400, pricePerGallon: 45}
+  it('calculates correct paint gallons needed', () => {
+    const formData = { totalSquareFootage: 1200, needsPrimer: false };
+    const paintProduct = { coveragePerGallon: 400, pricePerGallon: 45 };
 
-		const result = calculateMaterialCost(formData, paintProduct)
+    const result = calculateMaterialCost(formData, paintProduct);
 
-		expect(result.gallonsNeeded).toBe(3)
-		expect(result.paintCost).toBe(135)
-	})
+    expect(result.gallonsNeeded).toBe(3);
+    expect(result.paintCost).toBe(135);
+  });
 
-	it('applies regional pricing multipliers correctly', () => {
-		const formData = {totalSquareFootage: 1000, wallTexture: 'textured'}
-		const regionalPricing = {laborRatePerSqFt: 3.5}
+  it('applies regional pricing multipliers correctly', () => {
+    const formData = { totalSquareFootage: 1000, wallTexture: 'textured' };
+    const regionalPricing = { laborRatePerSqFt: 3.5 };
 
-		const result = calculateLaborCost(formData, regionalPricing)
+    const result = calculateLaborCost(formData, regionalPricing);
 
-		expect(result.complexityMultiplier).toBe(1.25)
-		expect(result.total).toBe(4375) // 1000 * 3.50 * 1.25
-	})
-})
+    expect(result.complexityMultiplier).toBe(1.25);
+    expect(result.total).toBe(4375); // 1000 * 3.50 * 1.25
+  });
+});
 ```
 
 **Level 2: Component Tests (React Testing Library) - 20% of tests**
@@ -611,35 +610,35 @@ ManufacturerSelect → updatePaintSpecs → usePaintColors → ColorSelector opt
 
 ```typescript
 interface QuoteCalculation {
-	materialCost: MaterialCost
-	laborCost: LaborCost
-	prepWorkCost: PrepWorkCost
-	complexityModifiers: ComplexityModifiers
-	subtotal: number
-	total: number
-	breakdown: CostBreakdown
+  materialCost: MaterialCost;
+  laborCost: LaborCost;
+  prepWorkCost: PrepWorkCost;
+  complexityModifiers: ComplexityModifiers;
+  subtotal: number;
+  total: number;
+  breakdown: CostBreakdown;
 }
 
 const calculateQuote = (formData: QuoteFormData, apiData: ApiPricingData): QuoteCalculation => {
-	const baseCalculation = {
-		materialCost: calculateMaterialCost(formData, apiData.paintProducts),
-		laborCost: calculateLaborCost(formData, apiData.regionalPricing),
-		prepWorkCost: calculatePrepWork(formData.prepRequirements),
-		complexityModifiers: calculateComplexity(formData.surfaceDetails),
-	}
+  const baseCalculation = {
+    materialCost: calculateMaterialCost(formData, apiData.paintProducts),
+    laborCost: calculateLaborCost(formData, apiData.regionalPricing),
+    prepWorkCost: calculatePrepWork(formData.prepRequirements),
+    complexityModifiers: calculateComplexity(formData.surfaceDetails),
+  };
 
-	const subtotal =
-		baseCalculation.materialCost.total +
-		baseCalculation.laborCost.total +
-		baseCalculation.prepWorkCost.total
+  const subtotal =
+    baseCalculation.materialCost.total +
+    baseCalculation.laborCost.total +
+    baseCalculation.prepWorkCost.total;
 
-	return {
-		...baseCalculation,
-		subtotal,
-		total: applyModifiers(subtotal, baseCalculation.complexityModifiers),
-		breakdown: generateDetailedBreakdown(baseCalculation),
-	}
-}
+  return {
+    ...baseCalculation,
+    subtotal,
+    total: applyModifiers(subtotal, baseCalculation.complexityModifiers),
+    breakdown: generateDetailedBreakdown(baseCalculation),
+  };
+};
 ```
 
 ### Detailed Calculation Components
@@ -648,96 +647,96 @@ const calculateQuote = (formData: QuoteFormData, apiData: ApiPricingData): Quote
 
 ```typescript
 interface MaterialCost {
-	gallonsNeeded: number
-	paintCost: number
-	suppliesCost: number
-	primerCost: number
-	total: number
+  gallonsNeeded: number;
+  paintCost: number;
+  suppliesCost: number;
+  primerCost: number;
+  total: number;
 }
 
 const calculateMaterialCost = (
-	formData: ProjectDetails,
-	paintProducts: PaintProduct[]
+  formData: ProjectDetails,
+  paintProducts: PaintProduct[]
 ): MaterialCost => {
-	const selectedProduct = paintProducts.find((p) => p.id === formData.selectedProductId)
-	const coverage = selectedProduct.coveragePerGallon // from API (350-400 sq ft)
-	const paintCost = selectedProduct.pricePerGallon // from API ($20-70)
-	const gallonsNeeded = Math.ceil(formData.totalSquareFootage / coverage)
+  const selectedProduct = paintProducts.find(p => p.id === formData.selectedProductId);
+  const coverage = selectedProduct.coveragePerGallon; // from API (350-400 sq ft)
+  const paintCost = selectedProduct.pricePerGallon; // from API ($20-70)
+  const gallonsNeeded = Math.ceil(formData.totalSquareFootage / coverage);
 
-	return {
-		gallonsNeeded,
-		paintCost: gallonsNeeded * paintCost,
-		suppliesCost: gallonsNeeded * 15, // brushes, rollers, drop cloths
-		primerCost: formData.needsPrimer ? gallonsNeeded * 25 : 0,
-		total:
-			gallonsNeeded * paintCost +
-			gallonsNeeded * 15 +
-			(formData.needsPrimer ? gallonsNeeded * 25 : 0),
-	}
-}
+  return {
+    gallonsNeeded,
+    paintCost: gallonsNeeded * paintCost,
+    suppliesCost: gallonsNeeded * 15, // brushes, rollers, drop cloths
+    primerCost: formData.needsPrimer ? gallonsNeeded * 25 : 0,
+    total:
+      gallonsNeeded * paintCost +
+      gallonsNeeded * 15 +
+      (formData.needsPrimer ? gallonsNeeded * 25 : 0),
+  };
+};
 ```
 
 **2. Labor Cost Calculation:**
 
 ```typescript
 interface LaborCost {
-	baseRate: number
-	complexityMultiplier: number
-	totalHours: number
-	total: number
+  baseRate: number;
+  complexityMultiplier: number;
+  totalHours: number;
+  total: number;
 }
 
 const calculateLaborCost = (
-	formData: ProjectDetails,
-	regionalPricing: RegionalPricing
+  formData: ProjectDetails,
+  regionalPricing: RegionalPricing
 ): LaborCost => {
-	const baseLaborRate = regionalPricing.laborRatePerSqFt // from API
+  const baseLaborRate = regionalPricing.laborRatePerSqFt; // from API
 
-	const complexityMultipliers = {
-		smooth: 1.0,
-		lightly_textured: 1.25,
-		heavily_textured: 1.5,
-		popcorn: 2.0,
-	}
+  const complexityMultipliers = {
+    smooth: 1.0,
+    lightly_textured: 1.25,
+    heavily_textured: 1.5,
+    popcorn: 2.0,
+  };
 
-	const prepWorkMultipliers = {
-		none: 1.0,
-		light: 1.15,
-		moderate: 1.35,
-		extensive: 1.75,
-	}
+  const prepWorkMultipliers = {
+    none: 1.0,
+    light: 1.15,
+    moderate: 1.35,
+    extensive: 1.75,
+  };
 
-	const complexityMultiplier =
-		complexityMultipliers[formData.wallTexture] * prepWorkMultipliers[formData.prepWorkLevel]
+  const complexityMultiplier =
+    complexityMultipliers[formData.wallTexture] * prepWorkMultipliers[formData.prepWorkLevel];
 
-	const totalHours = (formData.totalSquareFootage / 150) * complexityMultiplier // 150 sq ft per hour baseline
+  const totalHours = (formData.totalSquareFootage / 150) * complexityMultiplier; // 150 sq ft per hour baseline
 
-	return {
-		baseRate: baseLaborRate,
-		complexityMultiplier,
-		totalHours,
-		total: formData.totalSquareFootage * baseLaborRate * complexityMultiplier,
-	}
-}
+  return {
+    baseRate: baseLaborRate,
+    complexityMultiplier,
+    totalHours,
+    total: formData.totalSquareFootage * baseLaborRate * complexityMultiplier,
+  };
+};
 ```
 
 **3. Complexity and Additional Costs:**
 
 ```typescript
 const calculateComplexity = (surfaceDetails: SurfaceDetails): ComplexityModifiers => {
-	const doorWindowModifier = surfaceDetails.doorCount * 25 + surfaceDetails.windowCount * 15
-	const ceilingHeightModifier =
-		surfaceDetails.ceilingHeight > 9 ? (surfaceDetails.ceilingHeight - 9) * 50 : 0
-	const colorChangeModifier =
-		surfaceDetails.colorCount > 1 ? (surfaceDetails.colorCount - 1) * 100 : 0
+  const doorWindowModifier = surfaceDetails.doorCount * 25 + surfaceDetails.windowCount * 15;
+  const ceilingHeightModifier =
+    surfaceDetails.ceilingHeight > 9 ? (surfaceDetails.ceilingHeight - 9) * 50 : 0;
+  const colorChangeModifier =
+    surfaceDetails.colorCount > 1 ? (surfaceDetails.colorCount - 1) * 100 : 0;
 
-	return {
-		doorWindowModifier,
-		ceilingHeightModifier,
-		colorChangeModifier,
-		total: doorWindowModifier + ceilingHeightModifier + colorChangeModifier,
-	}
-}
+  return {
+    doorWindowModifier,
+    ceilingHeightModifier,
+    colorChangeModifier,
+    total: doorWindowModifier + ceilingHeightModifier + colorChangeModifier,
+  };
+};
 ```
 
 ### Real-time Calculation Triggers
@@ -763,31 +762,31 @@ const calculateComplexity = (surfaceDetails: SurfaceDetails): ComplexityModifier
 
 ```typescript
 interface QuoteOutput {
-	projectSummary: ProjectSummary
-	costBreakdown: {
-		materials: MaterialCost
-		labor: LaborCost
-		additionalCosts: ComplexityModifiers
-		subtotal: number
-		tax: number
-		total: number
-	}
-	timeline: {
-		estimatedHours: number
-		estimatedDays: number
-		startDate: Date
-		completionDate: Date
-	}
-	materials: {
-		paintGallons: number
-		primerGallons: number
-		supplies: string[]
-	}
-	terms: {
-		validUntil: Date
-		paymentTerms: string
-		warrantyInfo: string
-	}
+  projectSummary: ProjectSummary;
+  costBreakdown: {
+    materials: MaterialCost;
+    labor: LaborCost;
+    additionalCosts: ComplexityModifiers;
+    subtotal: number;
+    tax: number;
+    total: number;
+  };
+  timeline: {
+    estimatedHours: number;
+    estimatedDays: number;
+    startDate: Date;
+    completionDate: Date;
+  };
+  materials: {
+    paintGallons: number;
+    primerGallons: number;
+    supplies: string[];
+  };
+  terms: {
+    validUntil: Date;
+    paymentTerms: string;
+    warrantyInfo: string;
+  };
 }
 ```
 
@@ -880,10 +879,10 @@ Total Estimate = Material Cost + Labor Cost + Additional Costs
 
 ```typescript
 // Development: Direct fetch to MockAPI.io
-fetch('https://project.mockapi.io/paint-colors')
+fetch('https://project.mockapi.io/paint-colors');
 
 // Production: Same pattern with real API
-fetch('https://api.rollonpainting.com/paint-colors')
+fetch('https://api.rollonpainting.com/paint-colors');
 ```
 
 ### MockAPI.io Data Structure
@@ -891,24 +890,20 @@ fetch('https://api.rollonpainting.com/paint-colors')
 **Recommended Endpoints:**
 
 1. **`/paint-manufacturers`**
-
    - Sherwin Williams, Benjamin Moore, Behr, etc.
    - Include brand tier, coverage ratings, price modifiers
 
 2. **`/paint-colors`**
-
    - Colors with hex codes, popularity ratings
    - Linked to manufacturer IDs
    - Include color complexity cost factors
 
 3. **`/paint-products`**
-
    - Products with pricing, coverage per gallon, finishes
    - Quality tiers (basic, mid-tier, premium)
    - Special features (eco-friendly, antimicrobial)
 
 4. **`/regional-pricing`**
-
    - Zip code based pricing adjustments
    - Labor cost modifiers by region
    - Material availability factors
@@ -943,62 +938,60 @@ fetch('https://api.rollonpainting.com/paint-colors')
 ```typescript
 // Paint manufacturer data - direct to MockAPI.io
 export const usePaintManufacturers = () => {
-	return useQuery({
-		queryKey: ['paint-manufacturers'],
-		queryFn: () =>
-			fetch('https://your-project.mockapi.io/manufacturers').then((res) => {
-				if (!res.ok) throw new Error('Failed to fetch manufacturers')
-				return res.json()
-			}),
-		staleTime: 1000 * 60 * 30, // 30 minutes cache
-		retry: 3,
-		retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
-	})
-}
+  return useQuery({
+    queryKey: ['paint-manufacturers'],
+    queryFn: () =>
+      fetch('https://your-project.mockapi.io/manufacturers').then(res => {
+        if (!res.ok) throw new Error('Failed to fetch manufacturers');
+        return res.json();
+      }),
+    staleTime: 1000 * 60 * 30, // 30 minutes cache
+    retry: 3,
+    retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
+  });
+};
 
 // Paint colors by manufacturer
 export const usePaintColors = (manufacturerId: string) => {
-	return useQuery({
-		queryKey: ['paint-colors', manufacturerId],
-		queryFn: () =>
-			fetch(`https://your-project.mockapi.io/colors?manufacturerId=${manufacturerId}`).then(
-				(res) => {
-					if (!res.ok) throw new Error('Failed to fetch colors')
-					return res.json()
-				}
-			),
-		enabled: !!manufacturerId, // Only fetch when manufacturer selected
-		staleTime: 1000 * 60 * 15, // 15 minutes cache
-	})
-}
+  return useQuery({
+    queryKey: ['paint-colors', manufacturerId],
+    queryFn: () =>
+      fetch(`https://your-project.mockapi.io/colors?manufacturerId=${manufacturerId}`).then(res => {
+        if (!res.ok) throw new Error('Failed to fetch colors');
+        return res.json();
+      }),
+    enabled: !!manufacturerId, // Only fetch when manufacturer selected
+    staleTime: 1000 * 60 * 15, // 15 minutes cache
+  });
+};
 
 // Regional pricing adjustments
 export const useRegionalPricing = (zipCode: string) => {
-	return useQuery({
-		queryKey: ['regional-pricing', zipCode],
-		queryFn: () =>
-			fetch(`https://your-project.mockapi.io/pricing?zipCode=${zipCode}`).then((res) => {
-				if (!res.ok) throw new Error('Failed to fetch regional pricing')
-				return res.json()
-			}),
-		enabled: zipCode?.length === 5,
-		staleTime: 1000 * 60 * 60, // 1 hour cache for pricing
-	})
-}
+  return useQuery({
+    queryKey: ['regional-pricing', zipCode],
+    queryFn: () =>
+      fetch(`https://your-project.mockapi.io/pricing?zipCode=${zipCode}`).then(res => {
+        if (!res.ok) throw new Error('Failed to fetch regional pricing');
+        return res.json();
+      }),
+    enabled: zipCode?.length === 5,
+    staleTime: 1000 * 60 * 60, // 1 hour cache for pricing
+  });
+};
 
 // Paint products with pricing
 export const usePaintProducts = (filters: PaintFilters) => {
-	const queryParams = new URLSearchParams(filters).toString()
-	return useQuery({
-		queryKey: ['paint-products', filters],
-		queryFn: () =>
-			fetch(`https://your-project.mockapi.io/products?${queryParams}`).then((res) => {
-				if (!res.ok) throw new Error('Failed to fetch products')
-				return res.json()
-			}),
-		staleTime: 1000 * 60 * 20, // 20 minutes cache
-	})
-}
+  const queryParams = new URLSearchParams(filters).toString();
+  return useQuery({
+    queryKey: ['paint-products', filters],
+    queryFn: () =>
+      fetch(`https://your-project.mockapi.io/products?${queryParams}`).then(res => {
+        if (!res.ok) throw new Error('Failed to fetch products');
+        return res.json();
+      }),
+    staleTime: 1000 * 60 * 20, // 20 minutes cache
+  });
+};
 ```
 
 ### Data Flow Integration
@@ -1058,13 +1051,13 @@ export const usePaintProducts = (filters: PaintFilters) => {
 ```json
 // .eslintrc.json
 {
-	"extends": ["next/core-web-vitals", "@typescript-eslint/recommended", "prettier"],
-	"rules": {
-		"@typescript-eslint/no-unused-vars": "error",
-		"@typescript-eslint/explicit-function-return-type": "warn",
-		"prefer-const": "error",
-		"no-console": "warn"
-	}
+  "extends": ["next/core-web-vitals", "@typescript-eslint/recommended", "prettier"],
+  "rules": {
+    "@typescript-eslint/no-unused-vars": "error",
+    "@typescript-eslint/explicit-function-return-type": "warn",
+    "prefer-const": "error",
+    "no-console": "warn"
+  }
 }
 ```
 
@@ -1073,12 +1066,12 @@ export const usePaintProducts = (filters: PaintFilters) => {
 ```json
 // .prettierrc
 {
-	"semi": false,
-	"trailingComma": "es5",
-	"singleQuote": true,
-	"tabWidth": 2,
-	"printWidth": 100,
-	"plugins": ["prettier-plugin-tailwindcss"]
+  "semi": false,
+  "trailingComma": "es5",
+  "singleQuote": true,
+  "tabWidth": 2,
+  "printWidth": 100,
+  "plugins": ["prettier-plugin-tailwindcss"]
 }
 ```
 
@@ -1100,18 +1093,18 @@ export const usePaintProducts = (filters: PaintFilters) => {
 
 ```json
 {
-	"scripts": {
-		"dev": "next dev",
-		"build": "next build",
-		"start": "next start",
-		"lint": "next lint",
-		"lint:fix": "next lint --fix",
-		"format": "prettier --write .",
-		"format:check": "prettier --check .",
-		"type-check": "tsc --noEmit",
-		"analyze": "ANALYZE=true npm run build",
-		"prepare": "husky install"
-	}
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "type-check": "tsc --noEmit",
+    "analyze": "ANALYZE=true npm run build",
+    "prepare": "husky install"
+  }
 }
 ```
 
@@ -1130,10 +1123,10 @@ npx lint-staged
 ```json
 // package.json
 {
-	"lint-staged": {
-		"*.{js,jsx,ts,tsx}": ["eslint --fix", "prettier --write"],
-		"*.{json,md,yml,yaml}": ["prettier --write"]
-	}
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": ["eslint --fix", "prettier --write"],
+    "*.{json,md,yml,yaml}": ["prettier --write"]
+  }
 }
 ```
 
@@ -1482,35 +1475,35 @@ ManufacturerSelect → updatePaintSpecs → usePaintColors → ColorSelector opt
 
 ```typescript
 interface QuoteCalculation {
-	materialCost: MaterialCost
-	laborCost: LaborCost
-	prepWorkCost: PrepWorkCost
-	complexityModifiers: ComplexityModifiers
-	subtotal: number
-	total: number
-	breakdown: CostBreakdown
+  materialCost: MaterialCost;
+  laborCost: LaborCost;
+  prepWorkCost: PrepWorkCost;
+  complexityModifiers: ComplexityModifiers;
+  subtotal: number;
+  total: number;
+  breakdown: CostBreakdown;
 }
 
 const calculateQuote = (formData: QuoteFormData, apiData: ApiPricingData): QuoteCalculation => {
-	const baseCalculation = {
-		materialCost: calculateMaterialCost(formData, apiData.paintProducts),
-		laborCost: calculateLaborCost(formData, apiData.regionalPricing),
-		prepWorkCost: calculatePrepWork(formData.prepRequirements),
-		complexityModifiers: calculateComplexity(formData.surfaceDetails),
-	}
+  const baseCalculation = {
+    materialCost: calculateMaterialCost(formData, apiData.paintProducts),
+    laborCost: calculateLaborCost(formData, apiData.regionalPricing),
+    prepWorkCost: calculatePrepWork(formData.prepRequirements),
+    complexityModifiers: calculateComplexity(formData.surfaceDetails),
+  };
 
-	const subtotal =
-		baseCalculation.materialCost.total +
-		baseCalculation.laborCost.total +
-		baseCalculation.prepWorkCost.total
+  const subtotal =
+    baseCalculation.materialCost.total +
+    baseCalculation.laborCost.total +
+    baseCalculation.prepWorkCost.total;
 
-	return {
-		...baseCalculation,
-		subtotal,
-		total: applyModifiers(subtotal, baseCalculation.complexityModifiers),
-		breakdown: generateDetailedBreakdown(baseCalculation),
-	}
-}
+  return {
+    ...baseCalculation,
+    subtotal,
+    total: applyModifiers(subtotal, baseCalculation.complexityModifiers),
+    breakdown: generateDetailedBreakdown(baseCalculation),
+  };
+};
 ```
 
 ### Detailed Calculation Components
@@ -1519,96 +1512,96 @@ const calculateQuote = (formData: QuoteFormData, apiData: ApiPricingData): Quote
 
 ```typescript
 interface MaterialCost {
-	gallonsNeeded: number
-	paintCost: number
-	suppliesCost: number
-	primerCost: number
-	total: number
+  gallonsNeeded: number;
+  paintCost: number;
+  suppliesCost: number;
+  primerCost: number;
+  total: number;
 }
 
 const calculateMaterialCost = (
-	formData: ProjectDetails,
-	paintProducts: PaintProduct[]
+  formData: ProjectDetails,
+  paintProducts: PaintProduct[]
 ): MaterialCost => {
-	const selectedProduct = paintProducts.find((p) => p.id === formData.selectedProductId)
-	const coverage = selectedProduct.coveragePerGallon // from API (350-400 sq ft)
-	const paintCost = selectedProduct.pricePerGallon // from API ($20-70)
-	const gallonsNeeded = Math.ceil(formData.totalSquareFootage / coverage)
+  const selectedProduct = paintProducts.find(p => p.id === formData.selectedProductId);
+  const coverage = selectedProduct.coveragePerGallon; // from API (350-400 sq ft)
+  const paintCost = selectedProduct.pricePerGallon; // from API ($20-70)
+  const gallonsNeeded = Math.ceil(formData.totalSquareFootage / coverage);
 
-	return {
-		gallonsNeeded,
-		paintCost: gallonsNeeded * paintCost,
-		suppliesCost: gallonsNeeded * 15, // brushes, rollers, drop cloths
-		primerCost: formData.needsPrimer ? gallonsNeeded * 25 : 0,
-		total:
-			gallonsNeeded * paintCost +
-			gallonsNeeded * 15 +
-			(formData.needsPrimer ? gallonsNeeded * 25 : 0),
-	}
-}
+  return {
+    gallonsNeeded,
+    paintCost: gallonsNeeded * paintCost,
+    suppliesCost: gallonsNeeded * 15, // brushes, rollers, drop cloths
+    primerCost: formData.needsPrimer ? gallonsNeeded * 25 : 0,
+    total:
+      gallonsNeeded * paintCost +
+      gallonsNeeded * 15 +
+      (formData.needsPrimer ? gallonsNeeded * 25 : 0),
+  };
+};
 ```
 
 **2. Labor Cost Calculation:**
 
 ```typescript
 interface LaborCost {
-	baseRate: number
-	complexityMultiplier: number
-	totalHours: number
-	total: number
+  baseRate: number;
+  complexityMultiplier: number;
+  totalHours: number;
+  total: number;
 }
 
 const calculateLaborCost = (
-	formData: ProjectDetails,
-	regionalPricing: RegionalPricing
+  formData: ProjectDetails,
+  regionalPricing: RegionalPricing
 ): LaborCost => {
-	const baseLaborRate = regionalPricing.laborRatePerSqFt // from API
+  const baseLaborRate = regionalPricing.laborRatePerSqFt; // from API
 
-	const complexityMultipliers = {
-		smooth: 1.0,
-		lightly_textured: 1.25,
-		heavily_textured: 1.5,
-		popcorn: 2.0,
-	}
+  const complexityMultipliers = {
+    smooth: 1.0,
+    lightly_textured: 1.25,
+    heavily_textured: 1.5,
+    popcorn: 2.0,
+  };
 
-	const prepWorkMultipliers = {
-		none: 1.0,
-		light: 1.15,
-		moderate: 1.35,
-		extensive: 1.75,
-	}
+  const prepWorkMultipliers = {
+    none: 1.0,
+    light: 1.15,
+    moderate: 1.35,
+    extensive: 1.75,
+  };
 
-	const complexityMultiplier =
-		complexityMultipliers[formData.wallTexture] * prepWorkMultipliers[formData.prepWorkLevel]
+  const complexityMultiplier =
+    complexityMultipliers[formData.wallTexture] * prepWorkMultipliers[formData.prepWorkLevel];
 
-	const totalHours = (formData.totalSquareFootage / 150) * complexityMultiplier // 150 sq ft per hour baseline
+  const totalHours = (formData.totalSquareFootage / 150) * complexityMultiplier; // 150 sq ft per hour baseline
 
-	return {
-		baseRate: baseLaborRate,
-		complexityMultiplier,
-		totalHours,
-		total: formData.totalSquareFootage * baseLaborRate * complexityMultiplier,
-	}
-}
+  return {
+    baseRate: baseLaborRate,
+    complexityMultiplier,
+    totalHours,
+    total: formData.totalSquareFootage * baseLaborRate * complexityMultiplier,
+  };
+};
 ```
 
 **3. Complexity and Additional Costs:**
 
 ```typescript
 const calculateComplexity = (surfaceDetails: SurfaceDetails): ComplexityModifiers => {
-	const doorWindowModifier = surfaceDetails.doorCount * 25 + surfaceDetails.windowCount * 15
-	const ceilingHeightModifier =
-		surfaceDetails.ceilingHeight > 9 ? (surfaceDetails.ceilingHeight - 9) * 50 : 0
-	const colorChangeModifier =
-		surfaceDetails.colorCount > 1 ? (surfaceDetails.colorCount - 1) * 100 : 0
+  const doorWindowModifier = surfaceDetails.doorCount * 25 + surfaceDetails.windowCount * 15;
+  const ceilingHeightModifier =
+    surfaceDetails.ceilingHeight > 9 ? (surfaceDetails.ceilingHeight - 9) * 50 : 0;
+  const colorChangeModifier =
+    surfaceDetails.colorCount > 1 ? (surfaceDetails.colorCount - 1) * 100 : 0;
 
-	return {
-		doorWindowModifier,
-		ceilingHeightModifier,
-		colorChangeModifier,
-		total: doorWindowModifier + ceilingHeightModifier + colorChangeModifier,
-	}
-}
+  return {
+    doorWindowModifier,
+    ceilingHeightModifier,
+    colorChangeModifier,
+    total: doorWindowModifier + ceilingHeightModifier + colorChangeModifier,
+  };
+};
 ```
 
 ### Real-time Calculation Triggers
@@ -1634,31 +1627,31 @@ const calculateComplexity = (surfaceDetails: SurfaceDetails): ComplexityModifier
 
 ```typescript
 interface QuoteOutput {
-	projectSummary: ProjectSummary
-	costBreakdown: {
-		materials: MaterialCost
-		labor: LaborCost
-		additionalCosts: ComplexityModifiers
-		subtotal: number
-		tax: number
-		total: number
-	}
-	timeline: {
-		estimatedHours: number
-		estimatedDays: number
-		startDate: Date
-		completionDate: Date
-	}
-	materials: {
-		paintGallons: number
-		primerGallons: number
-		supplies: string[]
-	}
-	terms: {
-		validUntil: Date
-		paymentTerms: string
-		warrantyInfo: string
-	}
+  projectSummary: ProjectSummary;
+  costBreakdown: {
+    materials: MaterialCost;
+    labor: LaborCost;
+    additionalCosts: ComplexityModifiers;
+    subtotal: number;
+    tax: number;
+    total: number;
+  };
+  timeline: {
+    estimatedHours: number;
+    estimatedDays: number;
+    startDate: Date;
+    completionDate: Date;
+  };
+  materials: {
+    paintGallons: number;
+    primerGallons: number;
+    supplies: string[];
+  };
+  terms: {
+    validUntil: Date;
+    paymentTerms: string;
+    warrantyInfo: string;
+  };
 }
 ```
 
@@ -1751,10 +1744,10 @@ Total Estimate = Material Cost + Labor Cost + Additional Costs
 
 ```typescript
 // Development: Direct fetch to MockAPI.io
-fetch('https://project.mockapi.io/paint-colors')
+fetch('https://project.mockapi.io/paint-colors');
 
 // Production: Same pattern with real API
-fetch('https://api.rollonpainting.com/paint-colors')
+fetch('https://api.rollonpainting.com/paint-colors');
 ```
 
 ### MockAPI.io Data Structure
@@ -1762,24 +1755,20 @@ fetch('https://api.rollonpainting.com/paint-colors')
 **Recommended Endpoints:**
 
 1. **`/paint-manufacturers`**
-
    - Sherwin Williams, Benjamin Moore, Behr, etc.
    - Include brand tier, coverage ratings, price modifiers
 
 2. **`/paint-colors`**
-
    - Colors with hex codes, popularity ratings
    - Linked to manufacturer IDs
    - Include color complexity cost factors
 
 3. **`/paint-products`**
-
    - Products with pricing, coverage per gallon, finishes
    - Quality tiers (basic, mid-tier, premium)
    - Special features (eco-friendly, antimicrobial)
 
 4. **`/regional-pricing`**
-
    - Zip code based pricing adjustments
    - Labor cost modifiers by region
    - Material availability factors
@@ -1814,62 +1803,60 @@ fetch('https://api.rollonpainting.com/paint-colors')
 ```typescript
 // Paint manufacturer data - direct to MockAPI.io
 export const usePaintManufacturers = () => {
-	return useQuery({
-		queryKey: ['paint-manufacturers'],
-		queryFn: () =>
-			fetch('https://your-project.mockapi.io/manufacturers').then((res) => {
-				if (!res.ok) throw new Error('Failed to fetch manufacturers')
-				return res.json()
-			}),
-		staleTime: 1000 * 60 * 30, // 30 minutes cache
-		retry: 3,
-		retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
-	})
-}
+  return useQuery({
+    queryKey: ['paint-manufacturers'],
+    queryFn: () =>
+      fetch('https://your-project.mockapi.io/manufacturers').then(res => {
+        if (!res.ok) throw new Error('Failed to fetch manufacturers');
+        return res.json();
+      }),
+    staleTime: 1000 * 60 * 30, // 30 minutes cache
+    retry: 3,
+    retryDelay: attemptIndex => Math.min(1000 * 2 ** attemptIndex, 30000),
+  });
+};
 
 // Paint colors by manufacturer
 export const usePaintColors = (manufacturerId: string) => {
-	return useQuery({
-		queryKey: ['paint-colors', manufacturerId],
-		queryFn: () =>
-			fetch(`https://your-project.mockapi.io/colors?manufacturerId=${manufacturerId}`).then(
-				(res) => {
-					if (!res.ok) throw new Error('Failed to fetch colors')
-					return res.json()
-				}
-			),
-		enabled: !!manufacturerId, // Only fetch when manufacturer selected
-		staleTime: 1000 * 60 * 15, // 15 minutes cache
-	})
-}
+  return useQuery({
+    queryKey: ['paint-colors', manufacturerId],
+    queryFn: () =>
+      fetch(`https://your-project.mockapi.io/colors?manufacturerId=${manufacturerId}`).then(res => {
+        if (!res.ok) throw new Error('Failed to fetch colors');
+        return res.json();
+      }),
+    enabled: !!manufacturerId, // Only fetch when manufacturer selected
+    staleTime: 1000 * 60 * 15, // 15 minutes cache
+  });
+};
 
 // Regional pricing adjustments
 export const useRegionalPricing = (zipCode: string) => {
-	return useQuery({
-		queryKey: ['regional-pricing', zipCode],
-		queryFn: () =>
-			fetch(`https://your-project.mockapi.io/pricing?zipCode=${zipCode}`).then((res) => {
-				if (!res.ok) throw new Error('Failed to fetch regional pricing')
-				return res.json()
-			}),
-		enabled: zipCode?.length === 5,
-		staleTime: 1000 * 60 * 60, // 1 hour cache for pricing
-	})
-}
+  return useQuery({
+    queryKey: ['regional-pricing', zipCode],
+    queryFn: () =>
+      fetch(`https://your-project.mockapi.io/pricing?zipCode=${zipCode}`).then(res => {
+        if (!res.ok) throw new Error('Failed to fetch regional pricing');
+        return res.json();
+      }),
+    enabled: zipCode?.length === 5,
+    staleTime: 1000 * 60 * 60, // 1 hour cache for pricing
+  });
+};
 
 // Paint products with pricing
 export const usePaintProducts = (filters: PaintFilters) => {
-	const queryParams = new URLSearchParams(filters).toString()
-	return useQuery({
-		queryKey: ['paint-products', filters],
-		queryFn: () =>
-			fetch(`https://your-project.mockapi.io/products?${queryParams}`).then((res) => {
-				if (!res.ok) throw new Error('Failed to fetch products')
-				return res.json()
-			}),
-		staleTime: 1000 * 60 * 20, // 20 minutes cache
-	})
-}
+  const queryParams = new URLSearchParams(filters).toString();
+  return useQuery({
+    queryKey: ['paint-products', filters],
+    queryFn: () =>
+      fetch(`https://your-project.mockapi.io/products?${queryParams}`).then(res => {
+        if (!res.ok) throw new Error('Failed to fetch products');
+        return res.json();
+      }),
+    staleTime: 1000 * 60 * 20, // 20 minutes cache
+  });
+};
 ```
 
 ### Data Flow Integration

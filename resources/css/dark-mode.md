@@ -1,0 +1,36 @@
+# Implementing Dark Mode Gradient and Background
+
+Example how to integrate light and dark mode background svg for project root.
+
+```css
+/* globals.css */
+@import 'tailwindcss';
+
+/* Method 2: CSS Custom Properties for Dynamic Theming */
+:root {
+  /* Default to light theme */
+  --bg-image: url('/images/background-light.svg');
+}
+
+/* Dark theme override */
+:root.dark {
+  --bg-image: url('/images/background-dark.svg');
+}
+
+@theme {
+  /* Method 1: Static theme backgrounds */
+  --background-image-light-bg: url('/images/background-light.svg');
+  --background-image-dark-bg: url('/images/background-dark.svg');
+
+  /* Method 2: Dynamic background using custom property */
+  --background-image-theme-bg: var(--bg-image);
+
+  /* Grid layout for your original requirements */
+  --grid-template-rows-header-main-footer: 64px auto auto;
+}
+
+/* Optional: Smooth transition between themes */
+.theme-transition {
+  transition: background-image 0.3s ease-in-out;
+}
+```

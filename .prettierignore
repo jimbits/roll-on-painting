@@ -1,0 +1,48 @@
+# Dependencies
+node_modules
+
+# Build output
+.next
+dist
+out
+
+# Generated type definitions
+next-env.d.ts
+
+
+# Lockfiles (optional — Prettier doesn’t format them, but listed for clarity)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+
+# Static / binary assets
+public
+artwork
+docs
+learning
+ 
+# Storybook static files
+storybook-static
+
+
+# Build outputs
+.storybook
+.next/
+out/
+build/
+dist/
+
+# Environment files
+.env*
+
+# Logs
+*.log
+
+# Database
+*.db
+*.sqlite
+
+# OS generated files
+.DS_Store
+Thumbs.db
