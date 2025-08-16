@@ -15,25 +15,7 @@ export const defaultMetadata: Metadata = {
   },
   authors: [{ name: 'James Foley' }],
   creator: 'James Foley',
-  openGraph: {
-    type: 'website',
-    title: 'Edmonton Painters | Roll On Painting - Professional Residential & Commercial',
-    locale: 'en_CA',
-    url: 'https://www.rollonpaintingedmonton.com',
-    siteName: 'Roll On Painting Edmonton',
-    images: [
-      {
-        url: '/og-image.jpg',
-        width: 1200,
-        height: 630,
-        alt: 'MyApp Preview',
-      },
-    ],
-  },
-  twitter: {
-    card: 'summary_large_image',
-    creator: '@yourhandle',
-  },
+
   robots: {
     index: true,
     follow: true,
