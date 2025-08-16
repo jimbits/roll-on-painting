@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Menu } from 'lucide-react';
+import { Bars4Icon } from '@heroicons/react/24/outline';
 import { cn } from '@/lib/utils';
 interface MobileMenuProps {
   className?: string;
@@ -56,12 +56,12 @@ function MobileMenu({ className }: MobileMenuProps) {
       <button
         type='button'
         onClick={openModal}
-        className='text-zinc-700     transition-colors'
+        className='text-zinc-700 transition-colors'
         aria-label='Open navigation menu'
         aria-expanded='false'
         aria-controls='main-menu'
       >
-        <Menu className={cn('w-8 h-8  ', className)} />
+        <Bars4Icon className={cn('h-12 w-12 stroke-red-400', className)} />
       </button>
 
       {isOpen && (
@@ -77,14 +77,13 @@ function MobileMenu({ className }: MobileMenuProps) {
           {/* Modal content */}
           <div
             ref={modalRef}
-            className={`relative bg-white p-6 rounded shadow-lg transform transition-all duration-300
-              ${isVisible ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}
+            className={`relative transform rounded bg-white p-6 shadow-lg transition-all duration-300 ${isVisible ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}
           >
-            <h2 className='text-xl font-bold mb-4'>Hello!</h2>
+            <h2 className='mb-4 text-xl font-bold'>Hello!</h2>
             <p className='mb-4'>This modal now closes with Esc or clicking the backdrop.</p>
             <button
               onClick={closeModal}
-              className='px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors'
+              className='rounded bg-red-500 px-4 py-2 text-white transition-colors hover:bg-red-600'
             >
               Close
             </button>

@@ -1,30 +1,30 @@
 import { MobileMenu } from '@/components/navigation/MobileMenu';
-import { PhoneCall } from 'lucide-react';
 
 import ResidentialInteriors from '@/components/landing/ResidentialInteriors';
+import { PhoneIcon } from '@heroicons/react/24/outline';
 export default function Home() {
   return (
     <>
-      <ul className='flex items-center justify-between pt-2.5 px-4 mb-4'>
+      <ul className='mb-4 flex items-center justify-between px-4 pt-2.5'>
         <li>
-          <PhoneCall className='stroke-stone-600' />
+          <PhoneIcon className='h-6 w-6 text-gray-500' />
         </li>
         <li>
-          <p className='font-bold text-sm text-stone-500 '> Edmonton Roll On Quality </p>
+          <p className='text-sm font-bold text-stone-500'> Edmonton Roll On Quality </p>
         </li>
         <li>
-          <MobileMenu className='w-6 h-6 stroke-stone-600' />
+          <MobileMenu className='h-6 w-6 stroke-stone-600' />
         </li>
       </ul>
-      <header className='    mb-24 sm:bg-red-500  '>
-        <p className='mb-1 order-0 text-center md:text-left text-5xl   font-extrabold   bg-[linear-gradient(225deg,_rgb(247,_149,_51),_rgb(243,_112,_85),_rgb(239,_78,_123),_rgb(161,_102,_171),_rgb(80,_115,_184),_rgb(16,_152,_173),_rgb(7,_179,_155),_rgb(111,_186,_130))]     text-transparent bg-clip-text'>
+      <header className='mb-24'>
+        <p className='mb-1 bg-clip-text text-center text-5xl font-extrabold text-transparent'>
           Roll On Painting
         </p>
 
-        <h1 className='order-1 mb-4 text-xl md:text-left leading-6  font-bold   text-center   px-8 md:px-0'>
+        <h1 className='mb-4 px-8 text-center text-xl font-bold leading-6 md:px-0 md:text-left'>
           Edmonton House Painters Interior & Exterior Home Painting Services
         </h1>
-        <div className='order-2  '>
+        <div className=''>
           <picture>
             <img
               className='w-full'
@@ -36,23 +36,23 @@ export default function Home() {
           </picture>
         </div>
         <div>
-          <h2 className=' px-12 text-center my-6 text-2xl     tracking-tighter      text-stone-600 font-bold  mb-4   '>
+          <h2 className='my-6 mb-4 px-12 text-center text-2xl font-bold tracking-tighter text-stone-600'>
             Complete House Painting Services Throughout Edmonton
           </h2>
-          <h3 className=' mb-3 text-center   font-medium text-pretty text-gray-500 sm:text-xl/8 dark:text-gray-400'>
+          <h3 className='mb-3 text-pretty text-center font-medium text-gray-500 sm:text-xl/8 dark:text-gray-400'>
             Free Estimates from Licensed & Insured Home Painters
           </h3>
           <div className='flex justify-center gap-3 px-8'>
             <button
               type='button'
-              className='flex-1/2 text-base text-white font-medium tracking-tight text-center bg-linear-to-tr from-rose-600 via-rose-500 to-rose-600  rounded-sm  py-2.5 '
+              className='flex-1/2 bg-linear-to-tr rounded-sm from-rose-600 via-rose-500 to-rose-600 py-2.5 text-center text-base font-medium tracking-tight text-white'
             >
               Call For Free Quote Today
             </button>
 
             <button
               type='button'
-              className=' flex-1/2 text-base  text-white font-medium tracking-tight text-center bg-linear-to-bl from-blue-500 from-15% via-blue-600 via-35% to-indigo-600  to-85% rounded-sm  py-2.5  '
+              className='flex-1/2 bg-linear-to-bl rounded-sm from-blue-500 from-15% via-blue-600 via-35% to-indigo-600 to-85% py-2.5 text-center text-base font-medium tracking-tight text-white'
             >
               Book Your Quote Online
             </button>

@@ -95,15 +95,19 @@ Pushes to the `main` branch trigger an automatic deployment.
 ## 📷 Screenshots
 
 ### Homepage
+
 ![Homepage Screenshot](./assets/screenshots/homepage.png)
 
 ### Interior Painting Calculator
+
 ![Interior Calculator Screenshot](./assets/screenshots/interior-calculator.png)
 
 ### Exterior Painting Calculator
+
 ![Exterior Calculator Screenshot](./assets/screenshots/exterior-calculator.png)
 
 ### Storybook UI Library
+
 ![Storybook Screenshot](./assets/screenshots/storybook.png)
 
 ---

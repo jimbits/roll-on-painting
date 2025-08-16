@@ -23,7 +23,7 @@ const variants = {
 function NavBar({ children, tagline, title, className = '', variant = 'default' }: NavBarProps) {
   return (
     <header className={cn(baseStyles, variants[variant], className)}>
-      <h1 className='text-3xl font-semibold  '>{title}</h1>
+      <h1 className='text-3xl font-semibold'>{title}</h1>
       <p className='text-sm opacity-90'>{tagline}</p>
       {children}
     </header>

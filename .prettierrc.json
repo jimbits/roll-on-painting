@@ -9,5 +9,7 @@
   "bracketSameLine": false,
   "arrowParens": "avoid",
   "endOfLine": "lf",
-  "jsxSingleQuote": true
+  "jsxSingleQuote": true,
+  "plugins": ["prettier-plugin-tailwindcss"],
+  "tailwindStylesheet": "./css/app.css"
 }
