@@ -1,27 +1,28 @@
-import { MobileMenu } from '@/components/navigation/MobileMenu';
-
+import MobileMenuWithButton from '@/components/dialogs/MobileMenu/MobileMenu';
+import Link from 'next/link';
 import ResidentialInteriors from '@/components/landing/ResidentialInteriors';
-import { PhoneIcon } from '@heroicons/react/24/outline';
+import PhoneAction from '@/components/actions/PhoneLink';
+import {BookQuoteDialog} from '@/components/dialogs/BookQuoteDialog';
 export default function Home() {
   return (
     <>
       <ul className='mb-4 flex items-center justify-between px-4 pt-2.5'>
         <li>
-          <PhoneIcon className='h-6 w-6 text-gray-500' />
+        <PhoneAction/>
         </li>
         <li>
           <p className='text-sm font-bold text-stone-500'> Edmonton Roll On Quality </p>
         </li>
         <li>
-          <MobileMenu className='h-6 w-6 stroke-stone-600' />
+          <MobileMenuWithButton />
         </li>
       </ul>
       <header className='mb-24'>
-        <p className='mb-1 bg-clip-text text-center text-5xl font-extrabold text-transparent'>
+        <p className='mb-1 bg-linear-to-br from-pink-500 via-red-500 to-orange-500 bg-clip-text text-center text-5xl leading-[58px] font-extrabold text-transparent'>
           Roll On Painting
         </p>
 
-        <h1 className='mb-4 px-8 text-center text-xl font-bold leading-6 md:px-0 md:text-left'>
+        <h1 className='mb-4 -mt-1 px-8 text-center text-xl font-bold leading-6 md:px-0 md:text-left'>
           Edmonton House Painters Interior & Exterior Home Painting Services
         </h1>
         <div className=''>
@@ -49,13 +50,8 @@ export default function Home() {
             >
               Call For Free Quote Today
             </button>
-
-            <button
-              type='button'
-              className='flex-1/2 bg-linear-to-bl rounded-sm from-blue-500 from-15% via-blue-600 via-35% to-indigo-600 to-85% py-2.5 text-center text-base font-medium tracking-tight text-white'
-            >
-              Book Your Quote Online
-            </button>
+            <BookQuoteDialog/>
+           
           </div>
         </div>
       </header>
