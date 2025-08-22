@@ -1,25 +1,19 @@
 'use client';
 
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { CalendarDaysIcon, ClockIcon } from '@heroicons/react/24/outline';
+import { CalendarDaysIcon, ClockIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline';
 import { cn } from '@/lib/utils';
+import type { FormErrors, FormData } from './formValidation';
+import { 
+  validateEmail, 
+  validatePhone, 
+  validateDate, 
+  validateTime,
+ validateAppointmentDateTime  
+} from './formValidation';
 
-interface FormData {
-  email: string;
-  date: string;
-  time: string;
-  name: string;
-  phone: string;
-  projectDescription: string;
-}
-
-interface FormErrors {
-  email?: string;
-  date?: string;
-  time?: string;
-  appointment?: string; // For combined date/time validation
-}
-
+ 
+ 
 interface BookQuoteFormProps {
   onSubmit: (formData: FormData) => Promise<void>;
   onCancel: () => void;
@@ -27,14 +21,10 @@ interface BookQuoteFormProps {
   autoFocus?: boolean;
 }
 
-function BookQuoteForm({ 
-  onSubmit, 
-  onCancel, 
-  className,
-  autoFocus = true 
-}: BookQuoteFormProps) {
+function BookQuoteForm({ onSubmit, onCancel, className, autoFocus = true }: BookQuoteFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+  const [showBookingInfo, setShowBookingInfo] = useState(false);
+
   // Helper functions for default values
   const getCurrentDate = (): string => {
     const today = new Date();
@@ -43,29 +33,29 @@ function BookQuoteForm({
 
   const getCurrentTimePlusOneHour = (): string => {
     const now = new Date();
-    const oneHourLater = new Date(now.getTime() + (60 * 60 * 1000));
-    
+    const oneHourLater = new Date(now.getTime() + 60 * 60 * 1000);
+
     // Round to nearest 30-minute interval
     const minutes = oneHourLater.getMinutes();
     const roundedMinutes = minutes <= 30 ? 30 : 60;
-    
+
     if (roundedMinutes === 60) {
       oneHourLater.setHours(oneHourLater.getHours() + 1);
       oneHourLater.setMinutes(0);
     } else {
       oneHourLater.setMinutes(30);
     }
-    
+
     const hours = oneHourLater.getHours();
     const mins = oneHourLater.getMinutes();
-    
+
     // Check if time is within business hours (8 AM - 5:30 PM)
     if (hours < 8) {
       return '08:00'; // Default to 8 AM if too early
     } else if (hours > 17 || (hours === 17 && mins > 30)) {
       return '08:00'; // Default to 8 AM next day (user will need to change date)
     }
-    
+
     return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
   };
 
@@ -76,11 +66,11 @@ function BookQuoteForm({
     time: getCurrentTimePlusOneHour(),
     name: '',
     phone: '',
-    projectDescription: ''
+    projectDescription: '',
   });
-  
+
   const [errors, setErrors] = useState<FormErrors>({});
-  
+
   const firstInputRef = useRef<HTMLInputElement | null>(null);
 
   // Auto-focus first input when component mounts
@@ -90,128 +80,54 @@ function BookQuoteForm({
     }
   }, [autoFocus]);
 
-  // Validation functions
-  const validateEmail = (email: string): string | undefined => {
-    if (!email.trim()) {
-      return 'Email address is required';
-    }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return 'Please enter a valid email address';
-    }
-    return undefined;
-  };
 
-  const validateDate = (date: string): string | undefined => {
-    if (!date) {
-      return 'Please select a date for your appointment';
-    }
-    
-    // Parse the input date (YYYY-MM-DD format)
-    const selectedDate = new Date(date + 'T00:00:00');
-    const today = new Date();
-    
-    // Get today's date without time component
-    const todayDateOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    const selectedDateOnly = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate());
-    
-    // Only block past dates, allow today and future dates
-    if (selectedDateOnly < todayDateOnly) {
-      return 'Please select today or a future date';
-    }
-    return undefined;
-  };
-
-  const validateTime = (time: string): string | undefined => {
-    if (!time) {
-      return 'Please select a preferred time for your appointment';
-    }
-    return undefined;
-  };
+ 
 
   // Helper function to check if selected date is today
   const isSelectedDateToday = (date: string): boolean => {
     if (!date) return false;
-    
+
     const selectedDate = new Date(date + 'T00:00:00');
     const today = new Date();
-    
+
     const todayDateOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    const selectedDateOnly = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate());
-    
+    const selectedDateOnly = new Date(
+      selectedDate.getFullYear(),
+      selectedDate.getMonth(),
+      selectedDate.getDate()
+    );
+
     return selectedDateOnly.getTime() === todayDateOnly.getTime();
   };
-  const validateAppointmentDateTime = (date: string, time: string): string | undefined => {
-    if (!date || !time) {
-      return undefined; // Individual field validation will catch these
-    }
+ 
+ 
 
-    // Parse the date correctly (YYYY-MM-DD format)
-    const selectedDate = new Date(date + 'T00:00:00');
-    const today = new Date();
-    
-    // Get today's date without time component for comparison
-    const todayDateOnly = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    const selectedDateOnly = new Date(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate());
-    
-    // If appointment is for today, check if time has passed
-    if (selectedDateOnly.getTime() === todayDateOnly.getTime()) {
-      const [hours, minutes] = time.split(':').map(Number);
-      const appointmentDateTime = new Date(selectedDate);
-      appointmentDateTime.setHours(hours, minutes, 0, 0);
-      
-      const now = new Date();
-      // Add a 1-hour buffer for scheduling
-      const minimumTime = new Date(now.getTime() + (60 * 60 * 1000));
-      
-      if (appointmentDateTime < minimumTime) {
-        return 'For same-day appointments, please select a time at least 1 hour from now';
-      }
-    }
-    
-    return undefined;
-  };
-
-  // Validation functions (run on submit)
-  const validateField = useCallback((name: string, value: string) => {
-    switch (name) {
-      case 'email':
-        return validateEmail(value);
-      case 'date':
-        return validateDate(value);
-      case 'time':
-        return validateTime(value);
-      default:
-        return undefined;
-    }
-  }, []);
-
-  // Handle input changes - no validation during typing
-  const handleInputChange = (name: keyof FormData, value: string) => {
-    setFormData(prev => ({ ...prev, [name]: value }));
-    
-    // Clear any existing error for this field when user starts typing
-    if (errors[name as keyof FormErrors]) {
-      setErrors(prev => ({
-        ...prev,
-        [name]: undefined
-      }));
-    }
-    
-    // Clear appointment error when date or time changes
-    if ((name === 'date' || name === 'time') && errors.appointment) {
-      setErrors(prev => ({
-        ...prev,
-        appointment: undefined
-      }));
-    }
-  };
+ // Handle input changes - no validation during typing
+const handleInputChange = (name: keyof FormData, value: string) => {
+  setFormData(prev => ({ ...prev, [name]: value }));
+  
+  // Clear any existing error for this field when user starts typing
+  if (errors[name as keyof FormErrors]) {
+    setErrors(prev => ({
+      ...prev,
+      [name]: undefined
+    }));
+  }
+  
+  // Clear appointment error when date or time changes
+  if ((name === 'date' || name === 'time') && errors.appointment) {
+    setErrors(prev => ({
+      ...prev,
+      appointment: undefined
+    }));
+  }
+};
 
   // Format phone number
   const formatPhoneNumber = (value: string) => {
     const phoneNumber = value.replace(/[^\d]/g, '');
     const phoneNumberLength = phoneNumber.length;
-    
+
     if (phoneNumberLength < 4) return phoneNumber;
     if (phoneNumberLength < 7) {
       return `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
@@ -233,7 +149,7 @@ function BookQuoteForm({
         const displayTime = new Date(`2000-01-01T${timeString}`).toLocaleTimeString('en-US', {
           hour: 'numeric',
           minute: '2-digit',
-          hour12: true
+          hour12: true,
         });
         times.push({ value: timeString, label: displayTime });
       }
@@ -248,265 +164,275 @@ function BookQuoteForm({
 
     // Validate all required fields on submit
     const emailError = validateEmail(formData.email);
+    const phoneError = validatePhone(formData.phone); // Add this line
     const dateError = validateDate(formData.date);
     const timeError = validateTime(formData.time);
     const appointmentError = validateAppointmentDateTime(formData.date, formData.time);
-    
+
     const newErrors = {
       ...(emailError && { email: emailError }),
+      ...(phoneError && { phone: phoneError }), // Add this line
       ...(dateError && { date: dateError }),
       ...(timeError && { time: timeError }),
-      ...(appointmentError && { appointment: appointmentError })
+      ...(appointmentError && { appointment: appointmentError }),
     };
 
     setErrors(newErrors);
 
-    if (Object.keys(newErrors).length === 0) {
-      try {
-        await onSubmit(formData);
-        
-        // Reset form on successful submission
-        setFormData({
-          email: '',
-          date: '',
-          time: '',
-          name: '',
-          phone: '',
-          projectDescription: ''
-        });
-        setErrors({});
-      } catch (error) {
-        // Error handling is managed by parent component
-        console.error('Form submission error:', error);
-      }
-    }
+  if (Object.keys(newErrors).length === 0) {
+  try {
+    await onSubmit(formData);
     
+    // Reset form on successful submission
+    setFormData({
+      email: '',
+      date: getCurrentDate(),                    // Keep current date
+      time: getCurrentTimePlusOneHour(),         // Keep default time  
+      name: '',
+      phone: '',                                 // Reset phone to empty
+      projectDescription: ''
+    });
+    setErrors({});                               // Clear all errors
+  } catch (error) {
+    // Error handling is managed by parent component
+    console.error('Form submission error:', error);
+  }
+}
     setIsSubmitting(false);
   };
 
   return (
-   <section>
-      <header className="flex items-center justify-between px-6  ">
-          <div>
-            <h2 id="modal-title" className="text-3xl font-semibold text-gray-900">
-              Book Your Free Quote
-            </h2>
-            <p className="text-sm text-gray-600 mt-1">
-              Schedule your in-person consultation
-            </p>
-          </div>
+    <section>
+      <header className='flex items-center justify-between px-6'>
+        <div>
+          <h2 id='modal-title' className='text-3xl font-semibold text-gray-900'>
+            Book Your Free Quote
+          </h2>
+          
+          <p className='mt-1 text-sm text-stone-600'>Schedule your in-person consultation</p>
+            {/* Same-day booking info - collapsible */}
+              <div className='my-3'>
+                <button
+                  type="button"
+                  onClick={() => setShowBookingInfo(!showBookingInfo)}
+                  className='flex w-full items-center justify-between rounded-md border border-green-200 bg-green-50 p-3 text-left transition-colors hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2'
+                  aria-expanded={showBookingInfo}
+                  aria-controls="booking-info-content"
+                >
+                  <span className='text-sm font-medium text-green-800'>
+                    Same-day booking information
+                  </span>
+                  {showBookingInfo ? (
+                    <ChevronUpIcon className='h-4 w-4 text-green-600' />
+                  ) : (
+                    <ChevronDownIcon className='h-4 w-4 text-green-600' />
+                  )}
+                </button>
+                
+                {showBookingInfo && (
+                  <div 
+                    id="booking-info-content"
+                    className='mt-2 rounded-md border border-green-200 bg-green-50 p-3'
+                  >
+                    <p className='mb-2 text-sm text-green-800'>
+                      <span className='font-medium'>Business hours:</span> 8:00 AM - 5:30 PM
+                    </p>
+                    <p className='text-sm text-green-800'>
+                      <span className='font-medium'>Same-day booking:</span> For same-day appointments
+                      the time must be a minimum of an hour from now
+                    </p>
+                  </div>
+                )}
+              </div>
+            <span className='block text-xs font-normal text-gray-500'>
+                (<span className='text-red-500'>*</span> required fields must be completed)
+              </span>
+        </div>
+      </header>
+      <form onSubmit={handleSubmit} className={cn('overflow-y-auto', className)}>
+        <div className='space-y-6 p-6'>
+          {/* Required Fields Section */}
+          <fieldset className='space-y-3    '>
+          
 
-        </header>
-        <form onSubmit={handleSubmit} className={cn("overflow-y-auto", className)}>
-          <div className="p-6 space-y-6">
-            
-         
-            
-            {/* Required Fields Section */}
-            <fieldset className="  border border-gray-200 rounded-lg p-4 space-y-4">
-              <legend className="text-xl font-semibold text-gray-700 px-2">
-              Details <span className="text-xs text-gray-500 font-normal">(
-                <span className="text-red-500  ">*</span> required fields must be completed)</span>
-            </legend>
-            
             {/* Email - Required */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                Email Address <span className="text-red-500">*</span>
+              <label htmlFor='email' className='mb-2 block text-sm font-medium text-gray-700'>
+                Email Address <span className='text-red-500'>*</span>
               </label>
+              {/* Email Input */}
               <input
                 ref={firstInputRef}
-                type="email"
-                id="email"
+                type='email'
+                id='email'
+                name='email'
+                inputMode='email'
+                autoComplete='email'
                 value={formData.email}
-                onChange={(e) => handleInputChange('email', e.target.value)}
+                onChange={e => handleInputChange('email', e.target.value)}
                 className={cn(
-                  "w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 transition-colors",
+                  'w-full rounded-md border px-3 py-2 transition-colors focus:outline-none focus:ring-2',
                   errors.email
-                    ? "border-red-300 focus:ring-red-500" 
-                    : "border-gray-300 focus:ring-blue-500"
+                    ? 'border-red-300 focus:ring-red-500'
+                    : 'border-gray-300 focus:ring-blue-500'
                 )}
-                placeholder="your@email.com"
-                aria-required="true"
+                placeholder='your@email.com'
+                aria-required='true'
                 aria-invalid={errors.email ? 'true' : 'false'}
                 aria-describedby={errors.email ? 'email-error' : undefined}
               />
               {errors.email && (
-                <p id="email-error" className="mt-1 text-sm text-red-600" role="alert">
+                <p id='email-error' className='mt-1 text-sm text-red-600' role='alert'>
                   {errors.email}
                 </p>
               )}
             </div>
-    
-            {/* Date - Required */}
+
+         
+            {/* Phone Number - Required */}
             <div>
-              <label htmlFor="date" className="block text-sm font-medium text-gray-700 mb-2">
-                <CalendarDaysIcon className="inline w-4 h-4 mr-1" />
-                Preferred Date <span className="text-red-500">*</span>
+              <label htmlFor='phone' className='mb-2 block text-sm font-medium text-gray-700'>
+                Phone Number <span className='text-red-500'>*</span> 
               </label>
               <input
-                type="date"
-                id="date"
+                id='phone'
+                type='tel'
+                name='phone'
+                autoComplete='tel'
+                inputMode='tel'
+                value={formData.phone}
+                onChange={e => {
+                  const formatted = formatPhoneNumber(e.target.value);
+                  handleInputChange('phone', formatted);
+                }}
+                className={cn(
+                  'w-full rounded-md border px-3 py-2 transition-colors focus:outline-none focus:ring-2',
+                  errors.phone // Add error styling
+                    ? 'border-red-300 focus:ring-red-500'
+                    : 'border-gray-300 focus:ring-blue-500'
+                )}
+                placeholder='(780) 433-4567'
+                maxLength={14}
+                aria-required='true' // Add accessibility
+                aria-invalid={errors.phone ? 'true' : 'false'} // Add accessibility
+                aria-describedby={errors.phone ? 'phone-error' : undefined} // Add accessibility
+              />
+              {errors.phone && ( // Add error message display
+                <p id='phone-error' className='mt-1 text-sm text-red-600' role='alert'>
+                  {errors.phone}
+                </p>
+              )}
+            </div>
+
+            {/* Date - Required */}
+            <div>
+              <label htmlFor='date' className='mb-2 block text-sm font-medium text-gray-700'>
+                <CalendarDaysIcon className='mr-1 inline h-4 w-4' />
+                Preferred Date <span className='text-red-500'>*</span>
+              </label>
+              <input
+                type='date'
+                id='date'
+                name='date'
                 value={formData.date}
-                onChange={(e) => handleInputChange('date', e.target.value)}
+                onChange={e => handleInputChange('date', e.target.value)}
                 min={getMinDate()}
                 className={cn(
-                  "w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 transition-colors",
-                  (errors.date || errors.appointment)
-                    ? "border-red-300 focus:ring-red-500" 
-                    : "border-gray-300 focus:ring-blue-500"
+                  'w-full rounded-md border px-3 py-2 transition-colors focus:outline-none focus:ring-2',
+                  errors.date || errors.appointment
+                    ? 'border-red-300 focus:ring-red-500'
+                    : 'border-gray-300 focus:ring-blue-500'
                 )}
-                aria-required="true"
+                aria-required='true'
                 aria-invalid={errors.date || errors.appointment ? 'true' : 'false'}
-                aria-describedby={errors.date ? 'date-error' : errors.appointment ? 'appointment-error' : undefined}
+                aria-describedby={
+                  errors.date ? 'date-error' : errors.appointment ? 'appointment-error' : undefined
+                }
               />
               {errors.date && (
-                <p id="date-error" className="mt-1 text-sm text-red-600" role="alert">
+                <p id='date-error' className='mt-1 text-sm text-red-600' role='alert'>
                   {errors.date}
                 </p>
               )}
             </div>
-    
+
             {/* Time - Required */}
             <div>
-              <label htmlFor="time" className="block text-sm font-medium text-gray-700 mb-2">
-                <ClockIcon className="inline w-4 h-4 mr-1" />
-                Preferred Time <span className="text-red-500">*</span>
+              <label htmlFor='time' className='mb-2 block text-sm font-medium text-gray-700'>
+                <ClockIcon className='mr-1 inline h-4 w-4' />
+                Preferred Time <span className='text-red-500'>*</span>
               </label>
-              
-             
+
               <select
-                id="time"
+                id='time'
                 value={formData.time}
-                onChange={(e) => handleInputChange('time', e.target.value)}
+                name='time'
+                onChange={e => handleInputChange('time', e.target.value)}
                 className={cn(
-                  "w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 transition-colors",
-                  (errors.time || errors.appointment)
-                    ? "border-red-300 focus:ring-red-500" 
-                    : "border-gray-300 focus:ring-blue-500"
+                  'w-full rounded-md border px-3 py-2 transition-colors focus:outline-none focus:ring-2',
+                  errors.time || errors.appointment
+                    ? 'border-red-300 focus:ring-red-500'
+                    : 'border-gray-300 focus:ring-blue-500'
                 )}
-                aria-required="true"
+                aria-required='true'
                 aria-invalid={errors.time || errors.appointment ? 'true' : 'false'}
-                aria-describedby={errors.time ? 'time-error' : errors.appointment ? 'appointment-error' : undefined}
+                aria-describedby={
+                  errors.time ? 'time-error' : errors.appointment ? 'appointment-error' : undefined
+                }
               >
-                <option value="">Select a time</option>
-                {generateTimeOptions().map((time) => (
+                <option value=''>Select a time</option>
+                {generateTimeOptions().map(time => (
                   <option key={time.value} value={time.value}>
                     {time.label}
                   </option>
                 ))}
               </select>
               {errors.time && (
-                <p id="time-error" className="mt-1 text-sm text-red-600" role="alert">
+                <p id='time-error' className='mt-1 text-sm text-red-600' role='alert'>
                   {errors.time}
                 </p>
               )}
-                {/* Same-day booking info - always visible */}
-            <div className="my-3 bg-green-50 border border-green-200 rounded-md p-3">
-              <p className="text-sm mb-2 text-green-800"><span className="font-medium">Business hours:</span>  8:00 AM - 5:30 PM •</p>
-              <p className="text-sm text-green-800">
-                <span className="font-medium">Same-day booking:</span> For same-day appointments the time must be a minimum of an hour from now
-              </p>
+              
+            
             </div>
-            </div>
-    
+
             {/* Combined Date/Time Validation Error */}
             {errors.appointment && (
-              <div className="bg-red-50 border border-red-200 rounded-md p-3">
-                <p id="appointment-error" className="text-sm text-red-800" role="alert">
-                  <span className="font-medium">Scheduling Issue:</span> {errors.appointment}
+              <div className='rounded-md border border-red-200 bg-red-50 p-3'>
+                <p id='appointment-error' className='text-sm text-red-800' role='alert'>
+                  <span className='font-medium'>Scheduling Issue:</span> {errors.appointment}
                 </p>
               </div>
             )}
-            </fieldset>
-    
-            {/* Optional Fields Section */}
-            <fieldset className=" border border-gray-200 rounded-lg p-4 space-y-4">
-              <legend className="text-xl font-semibold text-gray-700 px-2">
-              Additional Information <span className="block text-gray-500 text-sm font-normal">(All fields below are optional and can be skipped)</span>
-            </legend>
-    
-            {/* Name - Optional */}
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                Full Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                value={formData.name}
-                onChange={(e) => handleInputChange('name', e.target.value)}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Your full name"
-              />
-            </div>
-    
-            {/* Phone - Optional */}
-            <div>
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                Phone Number
-              </label>
-              <input
-                type="tel"
-                id="phone"
-                value={formData.phone}
-                onChange={(e) => {
-                  const formatted = formatPhoneNumber(e.target.value);
-                  handleInputChange('phone', formatted);
-                }}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="(555) 123-4567"
-                maxLength={14}
-              />
-            </div>
-    
-            {/* Project Description - Optional */}
-            <div>
-              <label htmlFor="projectDescription" className="block text-sm font-medium text-gray-700 mb-2">
-                Project Description
-              </label>
-              <textarea
-                id="projectDescription"
-                value={formData.projectDescription}
-                onChange={(e) => handleInputChange('projectDescription', e.target.value)}
-                rows={4}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-vertical"
-                placeholder="Tell us about your project, space, or any specific requirements..."
-                maxLength={500}
-              />
-              <p className="mt-1 text-xs text-gray-500">
-                {formData.projectDescription.length}/500 characters
-              </p>
-            </div>
-            </fieldset>
+          </fieldset>
+        </div>
+
+        {/* Footer */}
+        <div className='flex items-center  justify-center border-t  py-4 bg-stone-100'>
+          <div className='flex gap-3'>
+            <button
+              type='button'
+              onClick={onCancel}
+              className='rounded-md border border-gray-300 bg-white px-4 py-2 text-gray-700 transition-colors hover:bg-gray-50'
+              disabled={isSubmitting}
+            >
+              Cancel
+            </button>
+            <button
+              type='submit'
+              disabled={isSubmitting}
+              className={cn(
+                'rounded-md bg-blue-600 px-6 py-2 text-white transition-colors hover:bg-blue-700',
+                'disabled:cursor-not-allowed disabled:opacity-50',
+                'focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2'
+              )}
+            >
+              {isSubmitting ? 'Submitting...' : 'Request Free Quote'}
+            </button>
           </div>
-    
-          {/* Footer */}
-          <div className="flex justify-end items-center p-6 border-t border-gray-200 bg-gray-50">
-            <div className="flex gap-3">
-              <button
-                type="button"
-                onClick={onCancel}
-                className="px-4 py-2 text-gray-700 bg-white border border-gray-300 hover:bg-gray-50 rounded-md transition-colors"
-                disabled={isSubmitting}
-              >
-                Cancel
-              </button>
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className={cn(
-                  "px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md transition-colors",
-                  "disabled:opacity-50 disabled:cursor-not-allowed",
-                  "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
-                )}
-              >
-                {isSubmitting ? 'Submitting...' : 'Request Free Quote'}
-              </button>
-            </div>
-          </div>
-        </form>
-   </section>
+        </div>
+      </form>
+    </section>
   );
 }
 

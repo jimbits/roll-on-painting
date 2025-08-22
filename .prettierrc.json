@@ -11,5 +11,5 @@
   "endOfLine": "lf",
   "jsxSingleQuote": true,
   "plugins": ["prettier-plugin-tailwindcss"],
-  "tailwindStylesheet": "./css/app.css"
+  "tailwindStylesheet": "./css/global.css"
 }

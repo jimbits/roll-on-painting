@@ -1,19 +1,10 @@
 'use client';
-
+import { FormData } from './formValidation';
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { createPortal } from 'react-dom';
 import { cn } from '@/lib/utils';
-import BookQuoteForm from './BookQuoteForm'
-
-interface FormData {
-  email: string;
-  date: string;
-  time: string;
-  name: string;
-  phone: string;
-  projectDescription: string;
-}
+import BookQuoteForm from './BookQuoteForm';
 
 interface BookQuoteDialogProps {
   className?: string;
@@ -23,7 +14,7 @@ function BookQuoteDialog({ className }: BookQuoteDialogProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [mounted, setMounted] = useState(false);
-  
+
   const modalRef = useRef<HTMLDivElement | null>(null);
   const triggerRef = useRef<HTMLButtonElement | null>(null);
 
@@ -47,10 +38,10 @@ function BookQuoteDialog({ className }: BookQuoteDialogProps) {
     try {
       // Simulate API call - replace with your actual API endpoint
       await new Promise(resolve => setTimeout(resolve, 1000));
-      
+
       // Success handling
       console.log('Form submitted:', formData);
-      alert('Quote request submitted successfully! We\'ll contact you soon.');
+      alert("Quote request submitted successfully! We'll contact you soon.");
       closeModal();
     } catch (error) {
       alert('There was an error submitting your request. Please try again.');
@@ -69,10 +60,9 @@ function BookQuoteDialog({ className }: BookQuoteDialogProps) {
       const handleTransitionEnd = (event: TransitionEvent) => {
         if (event.target === modalRef.current) {
           setIsOpen(false);
-          triggerRef.current?.focus();
         }
       };
-      
+
       const el = modalRef.current;
       el.addEventListener('transitionend', handleTransitionEnd);
       return () => el.removeEventListener('transitionend', handleTransitionEnd);
@@ -88,7 +78,7 @@ function BookQuoteDialog({ className }: BookQuoteDialogProps) {
         event.preventDefault();
         closeModal();
       }
-      
+
       // Focus trap
       if (event.key === 'Tab' && modalRef.current) {
         const focusableElements = modalRef.current.querySelectorAll(
@@ -125,50 +115,52 @@ function BookQuoteDialog({ className }: BookQuoteDialogProps) {
   }, [isOpen]);
 
   const modalContent = isOpen ? (
-    <div 
-      className="fixed inset-0 z-50 flex items-center justify-center p-4"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="modal-title"
+    <div
+      className='fixed inset-0 z-50 flex items-center justify-center sm:p-4'
+      role='dialog'
+      aria-modal='true'
+      aria-labelledby='modal-title'
     >
       {/* Backdrop */}
       <div
         className={cn(
-          "absolute inset-0 bg-black/50 transition-opacity duration-300",
-          isVisible ? "opacity-100" : "opacity-0"
+          'absolute inset-0 bg-black/50 transition-opacity duration-300',
+          isVisible ? 'opacity-100' : 'opacity-0'
         )}
         onClick={closeModal}
-        aria-hidden="true"
+        aria-hidden='true'
       />
 
       {/* Modal content */}
       <div
         ref={modalRef}
         className={cn(
-          "relative bg-white rounded-lg shadow-xl w-full max-w-lg max-h-[95vh] overflow-hidden",
-          "transform transition-all duration-300 ease-out",
-          isVisible 
-            ? "opacity-100 translate-y-0 scale-100" 
-            : "opacity-0 translate-y-4 scale-95"
+          // Mobile: full screen
+          'relative max-h-[100svh] w-screen max-w-[100vw] overflow-hidden rounded-lg bg-white shadow-xl',
+          'transform transition-all duration-300 ease-out',
+          // Desktop: centered with constraints
+          'sm:h-auto sm:max-h-[90vh] sm:w-auto sm:max-w-2xl sm:rounded-lg',
+          'transform transition-all duration-300 ease-out',
+          isVisible ? 'opacity-100' : 'opacity-0'
         )}
       >
         {/* Header */}
-     <div className='flex justify-end'>
-         <button
+        <div className='flex justify-end'>
+          <button
             onClick={closeModal}
-            className="p-2 text- text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-full transition-colors"
-            aria-label="Close dialog"
+            className='rounded-full p-2 text-base text-gray-400 transition-colors hover:bg-gray-100 hover:text-stone-600'
+            aria-label='Close dialog'
           >
-            <XMarkIcon className="w-5 h-5" />
+            <XMarkIcon className='h-5 w-5' />
           </button>
-     </div>
+        </div>
 
         {/* Form */}
         <BookQuoteForm
           onSubmit={handleFormSubmit}
           onCancel={handleFormCancel}
-          className="max-h-[calc(95vh-120px)]"
-          autoFocus={true}
+          className='max-h-[calc(95vh-120px)]'
+          autoFocus={false}
         />
       </div>
     </div>
@@ -179,29 +171,20 @@ function BookQuoteDialog({ className }: BookQuoteDialogProps) {
       <button
         ref={triggerRef}
         onClick={openModal}
-        type="button"
+        type='button'
         className={cn(
-          "bg-gradient-to-bl from-blue-500 via-blue-600 to-indigo-600",
-          "py-2.5 px-6 rounded-sm text-base font-medium tracking-tight text-white",
-          "hover:from-blue-600 hover:via-blue-700 hover:to-indigo-700",
-          "focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2",
-          "transition-all duration-200",
-          className
+          'rounded-lg bg-indigo-500 px-8 py-4 text-base font-semibold text-white transition-colors duration-300 hover:bg-indigo-600',
+          'transition-all duration-200', className
         )}
-        aria-haspopup="dialog"
+        aria-haspopup='dialog'
       >
         Book A Free Quote Online
       </button>
 
       {/* Portal for modal */}
-      {mounted && modalContent && createPortal(
-        modalContent,
-        document.body
-      )}
+      {mounted && modalContent && createPortal(modalContent, document.body)}
     </>
   );
 }
 
 export default BookQuoteDialog;
-
- 

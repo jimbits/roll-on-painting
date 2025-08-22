@@ -1,10 +1,12 @@
 // layout.tsx
-import '@/css/globals.css';
 import type { Metadata } from 'next';
-import { defaultMetadata } from './metadata';
+
 import { Inter } from 'next/font/google';
 import { Analytics } from "@vercel/analytics/next"
 
+import { defaultMetadata } from './metadata';
+
+import '@/css/global.css';
 // Optimized Inter font configuration
 const inter = Inter({
   subsets: ['latin'],
