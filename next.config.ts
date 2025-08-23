@@ -2,8 +2,6 @@ import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   turbopack: {
- 
-    
     rules: {
       '*.svg': {
         loaders: [
@@ -70,6 +68,18 @@ const nextConfig: NextConfig = {
               },
             },
           },
+        ],
+      },
+      {
+        test: /\.(js|jsx|ts|tsx)$/,
+        exclude: [
+          /node_modules/,
+          /archive/,
+          /\.git/,
+          /docs/, // Exclude docs folder
+          /tests?/, // Exclude test/tests folders
+          /coverage/, // Exclude coverage folder
+          /\.storybook/, // Exclude Storybook folder
         ],
       }
     );

@@ -44,5 +44,5 @@
     "styles/**/*.tsx",
     ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules", "archived", ".next", "out"]
+  "exclude": ["node_modules", "archive", ".next", "out"]
 }

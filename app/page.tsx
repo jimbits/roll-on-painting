@@ -1,7 +1,8 @@
 import { BookQuoteDialog } from '@/components/dialogs/BookQuoteDialog';
 import PhoneAction from '@/components/actions/PhoneLink';
 import { MobileMenu } from '@/components/dialogs/MobileMenu';
-import ReviewSection from '@/components/landing/reviews/ReviewSection';
+import ReviewSection from '@/components/sections/reviews/ReviewSection';
+import ResidentialInteriors from '@/components/sections/interiors/ResidentialInteriors';
 const HomePage = () => {
   return (
     <>
@@ -83,6 +84,7 @@ const HomePage = () => {
         </div>
       </header>
       <main>
+        <ResidentialInteriors />
         <ReviewSection className="mt-28 px-4" />
       </main>
     </>

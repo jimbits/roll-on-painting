@@ -1,18 +1,18 @@
 'use client';
 import React, { useState } from 'react';
-import { 
-  Home, 
-  Brush, 
-  Building, 
-  Calculator, 
-  Star, 
-  Clipboard, 
-  Camera, 
-  FileText, 
+import {
+  Home,
+  Brush,
+  Building,
+  Calculator,
+  Star,
+  Clipboard,
+  Camera,
+  FileText,
   Phone,
   ChevronDown,
   ChevronUp,
-  X
+  X,
 } from 'lucide-react';
 
 // Types
@@ -29,50 +29,50 @@ const residentialLinks: MenuLink[] = [
     id: 'interior-painting',
     label: 'Interior Painting',
     href: '/residential/interior',
-    icon: <Home className="w-5 h-5" />
+    icon: <Home className="h-5 w-5" />,
   },
   {
     id: 'exterior-painting',
     label: 'Exterior Painting',
     href: '/residential/exterior',
-    icon: <Building className="w-5 h-5" />
+    icon: <Building className="h-5 w-5" />,
   },
   {
     id: 'quick-quote',
     label: 'Residential Quick Quote',
     href: '/residential/quote',
-    icon: <Calculator className="w-5 h-5" />
+    icon: <Calculator className="h-5 w-5" />,
   },
   {
     id: 'reviews',
     label: 'Reviews',
     href: '/reviews',
-    icon: <Star className="w-5 h-5" />
+    icon: <Star className="h-5 w-5" />,
   },
   {
     id: 'process',
     label: 'Process',
     href: '/process',
-    icon: <Clipboard className="w-5 h-5" />
+    icon: <Clipboard className="h-5 w-5" />,
   },
   {
     id: 'gallery',
     label: 'Gallery',
     href: '/gallery',
-    icon: <Camera className="w-5 h-5" />
+    icon: <Camera className="h-5 w-5" />,
   },
   {
     id: 'blog',
     label: 'Blog',
     href: '/blog',
-    icon: <FileText className="w-5 h-5" />
+    icon: <FileText className="h-5 w-5" />,
   },
   {
     id: 'contact',
     label: 'Contact',
     href: '/contact',
-    icon: <Phone className="w-5 h-5" />
-  }
+    icon: <Phone className="h-5 w-5" />,
+  },
 ];
 
 const commercialLinks: MenuLink[] = [
@@ -80,38 +80,38 @@ const commercialLinks: MenuLink[] = [
     id: 'commercial-interior',
     label: 'Commercial Interior',
     href: '/commercial/interior',
-    icon: <Building className="w-5 h-5" />
+    icon: <Building className="h-5 w-5" />,
   },
   {
     id: 'commercial-exterior',
     label: 'Commercial Exterior',
     href: '/commercial/exterior',
-    icon: <Brush className="w-5 h-5" />
+    icon: <Brush className="h-5 w-5" />,
   },
   {
     id: 'commercial-quote',
     label: 'Commercial Quote',
     href: '/commercial/quote',
-    icon: <Calculator className="w-5 h-5" />
+    icon: <Calculator className="h-5 w-5" />,
   },
   {
     id: 'commercial-projects',
     label: 'Project Gallery',
     href: '/commercial/projects',
-    icon: <Camera className="w-5 h-5" />
+    icon: <Camera className="h-5 w-5" />,
   },
   {
     id: 'maintenance',
     label: 'Maintenance Plans',
     href: '/commercial/maintenance',
-    icon: <Clipboard className="w-5 h-5" />
+    icon: <Clipboard className="h-5 w-5" />,
   },
   {
     id: 'commercial-contact',
     label: 'Commercial Contact',
     href: '/commercial/contact',
-    icon: <Phone className="w-5 h-5" />
-  }
+    icon: <Phone className="h-5 w-5" />,
+  },
 ];
 
 // Menu Link Component
@@ -119,39 +119,33 @@ const MenuLink: React.FC<{ link: MenuLink; onClick?: () => void }> = ({ link, on
   <a
     href={link.href}
     onClick={onClick}
-    className="flex items-center gap-3 px-4 py-3 text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-colors duration-200 rounded-lg mx-2"
+    className="mx-2 flex items-center gap-3 rounded-lg px-4 py-3 text-gray-700 transition-colors duration-200 hover:bg-blue-50 hover:text-blue-600"
   >
-    <div className="text-blue-600">
-      {link.icon}
-    </div>
+    <div className="text-blue-600">{link.icon}</div>
     <span className="font-medium">{link.label}</span>
   </a>
 );
 
 // Accordion Component
-const MenuAccordion: React.FC<{ 
-  title: string; 
-  links: MenuLink[]; 
-  isOpen: boolean; 
+const MenuAccordion: React.FC<{
+  title: string;
+  links: MenuLink[];
+  isOpen: boolean;
   onToggle: () => void;
   onLinkClick?: () => void;
 }> = ({ title, links, isOpen, onToggle, onLinkClick }) => (
   <div className="border-b border-gray-200">
     <button
       onClick={onToggle}
-      className="w-full flex items-center justify-between px-4 py-4 text-left font-semibold text-gray-800 hover:text-blue-600 transition-colors"
+      className="flex w-full items-center justify-between px-4 py-4 text-left font-semibold text-gray-800 transition-colors hover:text-blue-600"
     >
       <span>{title}</span>
-      {isOpen ? (
-        <ChevronUp className="w-5 h-5" />
-      ) : (
-        <ChevronDown className="w-5 h-5" />
-      )}
+      {isOpen ? <ChevronUp className="h-5 w-5" /> : <ChevronDown className="h-5 w-5" />}
     </button>
-    
+
     {isOpen && (
       <div className="pb-2">
-        {links.map((link) => (
+        {links.map(link => (
           <MenuLink key={link.id} link={link} onClick={onLinkClick} />
         ))}
       </div>
@@ -190,38 +184,26 @@ const MobileMenu: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen
   return (
     <>
       {/* Backdrop */}
-      <div 
-        className={`fixed inset-0 bg-black z-40 transition-opacity duration-300 ease-in-out ${
+      <div
+        className={`fixed inset-0 z-40 bg-black transition-opacity duration-300 ease-in-out ${
           shouldAnimate ? 'opacity-50' : 'opacity-0'
         }`}
         onClick={onClose}
       />
-      
+
       {/* Menu Panel */}
-      <div 
-        className={`
-          fixed z-50 bg-white shadow-xl flex flex-col
-          transition-all duration-300 ease-in-out
-          
-          /* Small screens: full screen with fade */
-          inset-0 
-          ${shouldAnimate ? 'opacity-100' : 'opacity-0'}
-          
-          /* Medium screens and up: slide from right */
-          md:top-0 md:right-0 md:h-full md:w-96 md:inset-auto
-          md:transform md:transition-transform md:duration-300 md:ease-in-out
-          ${shouldAnimate ? 'md:translate-x-0' : 'md:translate-x-full'}
-          md:opacity-100
-        `}
+      <div
+        className={`/* Small screens: full screen with fade */ fixed inset-0 z-50 flex flex-col bg-white shadow-xl transition-all duration-300 ease-in-out ${shouldAnimate ? 'opacity-100' : 'opacity-0'} /* Medium screens and up: slide from right */ md:inset-auto md:top-0 md:right-0 md:h-full md:w-96 md:transform md:transition-transform md:duration-300 md:ease-in-out ${shouldAnimate ? 'md:translate-x-0' : 'md:translate-x-full'} md:opacity-100`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-4 border-b border-gray-200 bg-linear-to-tr from-blue-700 via-blue-600 to-indigo-600 text-white shrink-0">
+        <div className="flex shrink-0 items-center justify-between border-b border-gray-200 bg-linear-to-tr from-blue-700 via-blue-600 to-indigo-600 px-4 py-4 text-white">
           <h2 className="text-xl font-bold">Roll On Painting</h2>
           <button
+            type="button"
             onClick={onClose}
-            className="p-2  rounded-lg transition-colors text-white"
+            className="rounded-lg p-2 text-white transition-colors"
           >
-            <X className="w-6 h-6" />
+            <X className="h-6 w-6" /> <span>x</span>
           </button>
         </div>
 
@@ -247,10 +229,8 @@ const MobileMenu: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen
         </div>
 
         {/* Footer */}
-        <div className="p-4 border-t border-gray-200 bg-gray-50 shrink-0">
-          <p className="text-sm text-gray-600 text-center">
-            Professional Painting Services
-          </p>
+        <div className="shrink-0 border-t border-gray-200 bg-gray-50 p-4">
+          <p className="text-center text-sm text-gray-600">Professional Painting Services</p>
         </div>
       </div>
     </>
@@ -261,11 +241,16 @@ const MobileMenu: React.FC<{ isOpen: boolean; onClose: () => void }> = ({ isOpen
 const MobileMenuButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
   <button
     onClick={onClick}
-    className="p-2 text-gray-600 hover:text-blue-600 transition-colors"
+    className="p-2 text-gray-600 transition-colors hover:text-blue-600"
     aria-label="Open navigation menu"
   >
-    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+    <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        d="M4 6h16M4 12h16M4 18h16"
+      />
     </svg>
   </button>
 );

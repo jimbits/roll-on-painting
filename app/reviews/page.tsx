@@ -1,7 +1,7 @@
-import { ReviewCard } from './ReviewCard';
-import { reviewData } from './reviewData';
-import ReadMore from './ReadMore';
-import AverageReviews from './AverageReviews';
+import { ReviewCard } from '@/components/sections/reviews/ReviewCard';
+import { reviewData } from '@/components/sections/reviews/reviewData';
+import ReadMore from '@/components/sections/reviews/ReadMore';
+import AverageReviews from '@/components/sections/reviews/AverageReviews';
 import { cn } from '@/lib/utils';
 
 export default function ReviewsPage() {
