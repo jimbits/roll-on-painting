@@ -1,8 +1,9 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
-
+ 
 @theme inline {
   --font-heading: var(--font-inter);
+  --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
   --font-sans: ui-sans-serif, system-ui, sans-serif;
   --font-mono: ui-monospace, 'SF Mono', Consolas, monospace;
   --color-background: var(--background);
@@ -98,7 +99,10 @@
 }
 @layer utilities {
   .text-copy {
-    @apply mb-8 mt-6 text-base text-gray-600 dark:text-gray-400;
+    @apply mt-6 mb-8 text-base text-gray-600 dark:text-gray-400;
+  }
+  .responsive{
+    @apply sm:bg-red-500 md:bg-orange-500 lg:bg-pink-500 xl:bg-emerald-500 2xl:bg-amber-500
   }
 }
 /* Menu Animation */
@@ -182,3 +186,5 @@ dialog[open]::backdrop {
 dialog[open] .dialog-content {
   opacity: 1;
 }
+
+ 

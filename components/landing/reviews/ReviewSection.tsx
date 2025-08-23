@@ -4,9 +4,13 @@ import ReadMore from './ReadMore';
 import AverageReviews from './AverageReviews';
 import { cn } from '@/lib/utils';
 
-export default function ReviewsPage() {
+interface ReviewSectionProps {
+  className?: string;
+}
+
+export default function ReviewSection({ className = '' }) {
   return (
-    <section className="max-w-8xl container mx-auto sm:p-0">
+    <section className={cn('max-w-8xl container mx-auto', className)}>
       <div>
         <header className="mb-4">
           <h2 className="text-3xl font-bold tracking-tight text-gray-900 md:text-4xl lg:text-4xl">

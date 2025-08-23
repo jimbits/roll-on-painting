@@ -2,7 +2,7 @@
 import type { Metadata } from 'next';
 
 import { Inter } from 'next/font/google';
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from '@vercel/analytics/next';
 
 import { defaultMetadata } from './metadata';
 
@@ -24,11 +24,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang='en' className={inter.variable}>
-      <body className='font-sans'>
-        {children}  
-         <Analytics />
-         </body>
+    <html lang="en" className={inter.variable}>
+      <body className="font-heading">
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }

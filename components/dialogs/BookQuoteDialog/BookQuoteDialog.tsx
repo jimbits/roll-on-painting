@@ -116,19 +116,19 @@ function BookQuoteDialog({ className }: BookQuoteDialogProps) {
 
   const modalContent = isOpen ? (
     <div
-      className='fixed inset-0 z-50 flex items-center justify-center sm:p-4'
-      role='dialog'
-      aria-modal='true'
-      aria-labelledby='modal-title'
+      className="fixed inset-0 z-50 flex items-center justify-center sm:p-4"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modal-title"
     >
       {/* Backdrop */}
       <div
         className={cn(
-          'absolute inset-0 bg-black/50 transition-opacity duration-300',
+          'absolute inset-0 bg-black/65 transition-opacity duration-300',
           isVisible ? 'opacity-100' : 'opacity-0'
         )}
         onClick={closeModal}
-        aria-hidden='true'
+        aria-hidden="true"
       />
 
       {/* Modal content */}
@@ -136,22 +136,22 @@ function BookQuoteDialog({ className }: BookQuoteDialogProps) {
         ref={modalRef}
         className={cn(
           // Mobile: full screen
-          'relative max-h-[100svh] w-screen max-w-[100vw] overflow-hidden rounded-lg bg-white shadow-xl',
+          'relative m-3 max-h-[100svh] w-[100svw] max-w-[480px] overflow-hidden rounded-lg bg-white shadow-xl',
           'transform transition-all duration-300 ease-out',
-          // Desktop: centered with constraints
-          'sm:h-auto sm:max-h-[90vh] sm:w-auto sm:max-w-2xl sm:rounded-lg',
+
           'transform transition-all duration-300 ease-out',
           isVisible ? 'opacity-100' : 'opacity-0'
         )}
       >
         {/* Header */}
-        <div className='flex justify-end'>
+        <div className="flex justify-end">
           <button
             onClick={closeModal}
-            className='rounded-full p-2 text-base text-gray-400 transition-colors hover:bg-gray-100 hover:text-stone-600'
-            aria-label='Close dialog'
+            type="button"
+            className="rounded-full p-2 text-base text-gray-400 transition-colors hover:bg-gray-100 hover:text-stone-600"
+            aria-label="Close dialog"
           >
-            <XMarkIcon className='h-5 w-5' />
+            <XMarkIcon className="h-5 w-5" />
           </button>
         </div>
 
@@ -159,7 +159,7 @@ function BookQuoteDialog({ className }: BookQuoteDialogProps) {
         <BookQuoteForm
           onSubmit={handleFormSubmit}
           onCancel={handleFormCancel}
-          className='max-h-[calc(95vh-120px)]'
+          className="max-h-[calc(95vh-120px)]"
           autoFocus={false}
         />
       </div>
@@ -171,12 +171,13 @@ function BookQuoteDialog({ className }: BookQuoteDialogProps) {
       <button
         ref={triggerRef}
         onClick={openModal}
-        type='button'
+        type="button"
         className={cn(
-          'rounded-lg bg-indigo-500 px-8 py-4 text-base font-semibold text-white transition-colors duration-300 hover:bg-indigo-600',
-          'transition-all duration-200', className
+          'rounded-lg border border-indigo-600 px-8 py-4 text-base font-semibold text-indigo-600 transition-colors duration-300 hover:bg-indigo-600 hover:text-white',
+          'transition-all duration-200',
+          className
         )}
-        aria-haspopup='dialog'
+        aria-haspopup="dialog"
       >
         Book A Free Quote Online
       </button>

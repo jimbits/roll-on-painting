@@ -1,30 +1,25 @@
-// StarRating.tsx
-import { cn } from '@/lib/utils'
-import { StarIcon } from '@heroicons/react/20/solid'
-
+import { cn } from '@/lib/utils';
+import StarIcon from './StarIcon';
 interface StarRatingProps {
-  rating: number
-  average: number
-  size?: 'sm' | 'md' | 'lg'
+  rating: number;
+  className?: string;
+  starStyles?: string;
 }
 
-export function StarRating({ rating, average, size = 'md' }: StarRatingProps) {
-  const sizeClasses = {
-    sm: 'size-4',
-    md: 'size-5', 
-    lg: 'size-6'
-  }
+const StarRating = ({ rating, className = '', starStyles = '' }: StarRatingProps) => {
+  // Ensure rating is between 0 and 5
+  const clampedRating = Math.max(0, Math.min(5, rating));
 
   return (
-    <span className={cn(
-      // Base classes
-      'shrink-0 transition-colors duration-200',
-      // Conditional color
-      average > rating ? 'text-yellow-400' : 'text-gray-300',
-      // Dynamic size
-      sizeClasses[size]
-    )}>
-      ⭐
-    </span>
-  )
-}
+    <div className={cn('flex items-center gap-2', className)}>
+      <div className={cn('flex items-center')}>
+        {[1, 2, 3, 4, 5].map(starNumber => (
+          <StarIcon key={starNumber} filled={starNumber <= clampedRating} className={starStyles} />
+        ))}
+      </div>
+      <span>{rating}/5</span>
+    </div>
+  );
+};
+
+export default StarRating;
