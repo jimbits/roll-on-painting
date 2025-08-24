@@ -43,6 +43,6 @@
     "styles/**/*.ts",
     "styles/**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "svgr.config.js"  ],
   "exclude": ["node_modules", "archive", ".next", "out"]
 }

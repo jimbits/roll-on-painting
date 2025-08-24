@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <style>
+            section>header {
+                display: grid;
+                gap: .35em;
+            }
+
+            section>header>h2 {
+                font-size: clamp(1.75rem, 4vw, 3.25rem);
+                line-height: 1.05;
+                margin: 0;
+            }
+
+            section>header>p {
+                margin: 0;
+                color: var(--muted);
+                font-size: clamp(1rem, 2.4vw, 1.5rem);
+            }
+
+            /* Body copy */
+            section>p {
+                margin: 0;
+                color: #6b6b6b;
+            }
+
+            /* Big image */
+            section>img {
+                width: 100%;
+                display: block;
+                border-radius: var(--radius);
+                object-fit: cover;
+                aspect-ratio: 16 / 9;
+                /* helps the skeleton shape */
+                background: #ececec;
+                /* placeholder bg */
+            }
+
+            /* Two small tiles (your <div> with two <ul>) */
+            section>div {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: var(--space-2);
+            }
+
+            section>div>ul {
+                margin: 0;
+                padding: var(--space-2);
+                border-radius: var(--radius);
+                background: #eee;
+                min-height: 120px;
+                list-style: disc inside;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <section>
+            <div>
+                <header>
+                    <h2>Content Heading</h2>
+                    <p>content heading introductory paragraph text to get you interested</p>
+                </header>
+                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Facere natus, architecto provident esse
+                    voluptatibus aliquid expedita veniam dignissimos veritatis iure culpa delectus hic sapiente eveniet
+                    quod! Incidunt labore beatae cumque quam ex.</p>
+            </div>
+            <div>
+                <img src="https://placehold.co/600x400"
+                     alt="">
+
+                <div>
+                    <ul>
+                        <li>list items</li>
+                        <li>list items</li>
+                        <li>list items</li>
+                    </ul>
+                    <ul>
+                        <li>list items</li>
+                        <li>list items</li>
+                        <li>list items</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+
+    </body>
+
+</html>

@@ -2,7 +2,7 @@ import { BookQuoteDialog } from '@/components/dialogs/BookQuoteDialog';
 import PhoneAction from '@/components/actions/PhoneLink';
 import { MobileMenu } from '@/components/dialogs/MobileMenu';
 import ReviewSection from '@/components/sections/reviews/ReviewSection';
-import ResidentialInteriors from '@/components/sections/interiors/ResidentialInteriors';
+import InteriorHomeServices from '@/components/sections/interior-home/InteriorHomeServices';
 const HomePage = () => {
   return (
     <>
@@ -17,9 +17,9 @@ const HomePage = () => {
           <MobileMenu />
         </li>
       </ul>
-      <header className="relative">
+      <header className="relative mb-16 bg-gray-50">
         {/* Container with responsive padding */}
-        <div className="mx-auto px-2 py-2.5 lg:py-8 2xl:px-10">
+        <div className="mx-auto px-2 py-2.5 2xl:px-10">
           {/* Single Responsive Grid Layout */}
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-2 lg:items-center lg:gap-12">
             {/* Content Column */}
@@ -84,7 +84,7 @@ const HomePage = () => {
         </div>
       </header>
       <main>
-        <ResidentialInteriors />
+        <InteriorHomeServices />
         <ReviewSection className="mt-28 px-4" />
       </main>
     </>

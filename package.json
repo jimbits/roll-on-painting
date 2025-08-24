@@ -13,7 +13,8 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "icons:generate": "svgr app/services/_assets/icons/  --out-dir  app/services/_icons/"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.7",
@@ -43,6 +44,7 @@
     "@storybook/addon-onboarding": "^9.1.0",
     "@storybook/addon-vitest": "^9.1.0",
     "@storybook/nextjs-vite": "^9.1.0",
+    "@svgr/cli": "^8.1.0",
     "@svgr/webpack": "^8.1.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20.19.9",
